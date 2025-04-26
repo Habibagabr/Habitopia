@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Habitopia</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="choose_your_gender">Choose your Gender</string>
+    <string name="pick_your_gender_to_personalize_your_experience">Pick your gender to personalize your experience</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="skip"><u>Skip</u></string>
+    <string name="done"><u>Done</u></string>
+</resources>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/gender">
+
+    <fragment
+        android:id="@+id/gender"
+        android:name="com.habiba.habitopia.Gender"
+        android:label="fragment_gender"
+        tools:layout="@layout/fragment_gender" >
+        <action
+            android:id="@+id/action_gender_to_character"
+            app:destination="@id/character" />
+    </fragment>
+    <fragment
+        android:id="@+id/character"
+        android:name="com.habiba.habitopia.Character"
+        android:label="fragment_character"
+        tools:layout="@layout/fragment_character" >
+        <argument
+            android:name="gender"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_character_to_gender"
+            app:destination="@id/gender" />
+        <action
+            android:id="@+id/action_character_to_naming"
+            app:destination="@id/naming" />
+    </fragment>
+    <fragment
+        android:id="@+id/naming"
+        android:name="com.habiba.habitopia.Naming"
+        android:label="fragment_naming"
+        tools:layout="@layout/fragment_naming" >
+        <argument
+            android:name="gender"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_naming_to_character"
+            app:destination="@id/character" />
+        <action
+            android:id="@+id/action_naming_to_mainActivity2"
+            app:destination="@id/mainActivity2" />
+    </fragment>
+    <activity
+        android:id="@+id/mainActivity2"
+        android:name="com.habiba.habitopia.MainActivity2"
+        android:label="activity_main2"
+        tools:layout="@layout/activity_main2" />
+</navigation>

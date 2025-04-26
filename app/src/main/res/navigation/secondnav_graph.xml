@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/secondnav_graph"
+    app:startDestination="@id/home2">
+
+    <fragment
+        android:id="@+id/home2"
+        android:name="com.habiba.habitopia.home"
+        android:label="home"
+        tools:layout="@layout/fragment_home" >
+        <argument android:name="characterName" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/alarm"
+        android:name="com.habiba.habitopia.alarm"
+        android:label="fragment_alarm"
+        tools:layout="@layout/fragment_alarm" />
+
+    <fragment
+        android:id="@+id/analysis"
+        android:name="com.habiba.habitopia.analysis"
+        android:label="fragment_analysis"
+        tools:layout="@layout/fragment_analysis" />
+
+    <fragment
+        android:id="@+id/profile"
+        android:name="com.habiba.habitopia.profile"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+
+    <fragment
+        android:id="@+id/addtask"
+        android:name="com.habiba.habitopia.addtask"
+        android:label="fragment_addtask"
+        tools:layout="@layout/fragment_addtask" />
+</navigation>
