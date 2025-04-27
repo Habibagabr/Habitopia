@@ -2,16 +2,10 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     id("kotlin-kapt")
-    id("androidx.navigation.safeargs.kotlin")
+    alias(libs.plugins.androidx.navigation.safeargs.kotlin)
 }
 
-
 android {
-
-    buildFeatures {
-        viewBinding = true
-    }
-
     namespace = "com.habiba.habitopia"
     compileSdk = 35
 
@@ -25,6 +19,10 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    buildFeatures {
+        viewBinding = true
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -34,37 +32,46 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = "1.8"
     }
 }
 
 dependencies {
-
+    // Core libraries
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+
+    // Navigation components
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
-    implementation(libs.androidx.navigation.fragment)
+
+    // Image loading and SVG support
+    implementation(libs.glide)
+    kapt(libs.glide)
+    implementation(libs.androidsvg)
+
+    // Room database
+    implementation(libs.room.runtime)
+    kapt(libs.room.compiler)
+
+    // Lifecycle components
+    implementation(libs.lifecycle.viewmodel.ktx)
+    implementation(libs.lifecycle.livedata.ktx)
+
+    // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation("com.github.bumptech.glide:glide:4.16.0")
-    kapt("com.github.bumptech.glide:compiler:4.16.0")
-    implementation("com.caverock:androidsvg:1.4")
-    implementation("androidx.navigation:navigation-fragment-ktx:2.7.6")
-    implementation ("androidx.navigation:navigation-ui-ktx:2.7.6")
-implementation("com.google.android.material:material:1.1.0")
-
-
-
-
+    implementation("androidx.room:room-ktx:2.6.1")
 
 }

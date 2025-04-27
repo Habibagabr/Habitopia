@@ -11,6 +11,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.habiba.habitopia.Adapters.TaskAdapter
+import com.habiba.habitopia.Adapters.TaskItem
 import com.habiba.habitopia.CharactersData.homeViewModel
 import com.habiba.habitopia.databinding.FragmentHomeBinding
 import com.habiba.habitopia.utils.renderSvgToBitmapWithDynamicWebView
@@ -49,6 +53,35 @@ class home : Fragment() {
 
         val name = viewModel.characterName
             binding.subtext.text = "Rise and shine! You and $name have things to check off today!"
+
+        val recyclerView = view.findViewById<RecyclerView>(R.id.tasksRecyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        val taskItems = listOf(
+            TaskItem.Header("Monday 1/5/2025"),
+            TaskItem.Task("Meeting", "Discuss with client", "10:00 AM", "11:00 AM"),
+            TaskItem.Task("Code Review", "Review team's code", "12:00 PM", "1:00 PM"),
+            TaskItem.Task("Design Update", "Update app design", "2:00 PM", "3:00 PM"),
+
+            TaskItem.Header("Tuesday 2/5/2025"),
+            TaskItem.Task("Presentation", "Show project progress", "9:00 AM", "10:30 AM"),
+            TaskItem.Task("Team Standup", "Daily team meeting", "11:00 AM", "11:30 AM"),
+            TaskItem.Task("Client Feedback", "Review feedback notes", "1:00 PM", "2:00 PM"),
+
+            TaskItem.Header("Wednesday 3/5/2025"),
+            TaskItem.Task("Bug Fixing", "Fix reported issues", "10:00 AM", "12:00 PM"),
+            TaskItem.Task("Research", "Explore new technologies", "1:00 PM", "2:30 PM"),
+            TaskItem.Task("Documentation", "Update project docs", "3:00 PM", "4:00 PM"),
+
+            TaskItem.Header("Thursday 4/5/2025"),
+            TaskItem.Task("Deployment", "Deploy new version", "9:00 AM", "11:00 AM"),
+            TaskItem.Task("Testing", "Run full test cases", "12:00 PM", "2:00 PM"),
+            TaskItem.Task("Team Meeting", "Plan next sprint", "3:00 PM", "4:00 PM")
+        )
+
+
+        val adapter = TaskAdapter(taskItems)
+        recyclerView.adapter = adapter
 
 
 

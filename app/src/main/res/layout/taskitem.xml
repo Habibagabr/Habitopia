@@ -2,48 +2,83 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:padding="5dp"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp">
 
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/taskTitle"
-        android:layout_width="50dp"
-        android:layout_height="100dp"
-        android:layout_marginEnd="16dp"
-        android:backgroundTint="@color/blue"
-        app:cardCornerRadius="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/taskDescrib"
+        android:id="@+id/taskTitlecard"
+        android:layout_width="60dp"
+        android:layout_height="0dp"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/taskDescribcard"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/taskDescribcard"
         app:layout_constraintVertical_bias="0.0">
+
+        <TextView
+            android:id="@+id/taskTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:rotation="90"
+            android:text="Meeting"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
 
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/taskDescrib"
-        android:layout_width="310dp"
-        android:layout_height="100dp"
-        android:layout_marginEnd="8dp"
-        android:backgroundTint="@color/blue"
+        android:id="@+id/taskDescribcard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="4dp"
         app:cardCornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/taskTitlecard"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
 
         <TextView
+            android:id="@+id/taskDuration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="start"
             android:padding="10dp"
             android:text="10:00 AM - 10:00 PM"
+            android:textColor="@color/white"
             android:textSize="18dp"
-            android:textStyle="bold"
-            android:textColor="@color/white">
+            android:textStyle="bold">
+
         </TextView>
-        
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="end"
+            android:layout_margin="10dp"
+            android:src="@drawable/circle">
+
+        </ImageView>
+
+        <TextView
+            android:id="@+id/taskDescribText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:padding="10dp"
+            android:text="• Discuss project updates and next steps with the business team\n\n• Review weekly goals, assign new tasks, and address any team concerns.
+"
+            android:textColor="@color/white">
+
+        </TextView>
+
+
     </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

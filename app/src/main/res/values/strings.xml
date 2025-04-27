@@ -8,4 +8,5 @@
     <string name="female">Female</string>
     <string name="skip"><u>Skip</u></string>
     <string name="done"><u>Done</u></string>
+    <string name="doneTask"><u>Done</u></string>
 </resources>
