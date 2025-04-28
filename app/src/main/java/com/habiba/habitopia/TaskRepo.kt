@@ -5,7 +5,8 @@ import androidx.lifecycle.LiveData
 class TaskRepo(private val taskDao:TaskDAO) {
 
     // Get all tasks for a specific user
-    fun getTasksForUser(userId: String): LiveData<List<TaskEntity>> {
+    suspend fun getTasksForUser(userId: String): List<TaskEntity> {
+
         return taskDao.getTasksForUser(userId)
     }
 

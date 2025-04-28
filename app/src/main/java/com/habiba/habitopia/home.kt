@@ -1,49 +1,56 @@
 package com.habiba.habitopia
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.habiba.habitopia.Adapters.CalendarAdapter
+import com.habiba.habitopia.Adapters.DayModel
 import com.habiba.habitopia.Adapters.TaskAdapter
 import com.habiba.habitopia.Adapters.TaskItem
 import com.habiba.habitopia.CharactersData.homeViewModel
 import com.habiba.habitopia.databinding.FragmentHomeBinding
 import com.habiba.habitopia.utils.renderSvgToBitmapWithDynamicWebView
+import java.time.LocalDate
+import java.util.UUID
 
 class home : Fragment() {
-    private var _binding : FragmentHomeBinding? = null
-    private val binding get()=_binding!!
-    private lateinit var viewModel:homeViewModel
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var homeViewModel: homeViewModel
+    private lateinit var taskViewModel: TaskViewModel
+    private lateinit var repo: TaskRepo
+    private lateinit var database: TaskDatabase
+    private lateinit var dao: TaskDAO
+    private lateinit var userId: String
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
-        _binding=FragmentHomeBinding.inflate(layoutInflater)
-        return _binding!!.root
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(requireActivity())[homeViewModel::class.java]
-        val sharedPref = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
 
-        var characterImage = sharedPref.getString("character",null)
+        userId = setUserId()
+
+        homeViewModel = homeViewModel()
+
+        val sharedPref = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val characterImage = sharedPref.getString("character", null)
         if (characterImage != null) {
-            //for trying
-            characterImage=viewModel.setAvater(characterImage,"Happy","Default")
+            val updatedCharacterImage = homeViewModel.setAvater(characterImage, "Happy", "Default")
             renderSvgToBitmapWithDynamicWebView(
                 context = binding.avatarImage.context,
-                svgUrl = characterImage,
+                svgUrl = updatedCharacterImage,
                 width = 700,
                 height = 700
             ) { bitmap ->
@@ -51,41 +58,76 @@ class home : Fragment() {
             }
         }
 
-        val name = viewModel.characterName
-            binding.subtext.text = "Rise and shine! You and $name have things to check off today!"
+        val name = homeViewModel.characterName
+        binding.subtext.text = "Rise and shine! You and $name have things to check off today!"
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.tasksRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        val taskItems = listOf(
-            TaskItem.Header("Monday 1/5/2025"),
-            TaskItem.Task("Meeting", "Discuss with client", "10:00 AM", "11:00 AM"),
-            TaskItem.Task("Code Review", "Review team's code", "12:00 PM", "1:00 PM"),
-            TaskItem.Task("Design Update", "Update app design", "2:00 PM", "3:00 PM"),
-
-            TaskItem.Header("Tuesday 2/5/2025"),
-            TaskItem.Task("Presentation", "Show project progress", "9:00 AM", "10:30 AM"),
-            TaskItem.Task("Team Standup", "Daily team meeting", "11:00 AM", "11:30 AM"),
-            TaskItem.Task("Client Feedback", "Review feedback notes", "1:00 PM", "2:00 PM"),
-
-            TaskItem.Header("Wednesday 3/5/2025"),
-            TaskItem.Task("Bug Fixing", "Fix reported issues", "10:00 AM", "12:00 PM"),
-            TaskItem.Task("Research", "Explore new technologies", "1:00 PM", "2:30 PM"),
-            TaskItem.Task("Documentation", "Update project docs", "3:00 PM", "4:00 PM"),
-
-            TaskItem.Header("Thursday 4/5/2025"),
-            TaskItem.Task("Deployment", "Deploy new version", "9:00 AM", "11:00 AM"),
-            TaskItem.Task("Testing", "Run full test cases", "12:00 PM", "2:00 PM"),
-            TaskItem.Task("Team Meeting", "Plan next sprint", "3:00 PM", "4:00 PM")
-        )
-
-
-        val adapter = TaskAdapter(taskItems)
+        val adapter = TaskAdapter()
         recyclerView.adapter = adapter
 
+        database = TaskDatabase.getDatabase(requireContext())
+        dao = database.taskDao()
+        repo = TaskRepo(dao)
+        taskViewModel = ViewModelProvider(this, TaskViewModelFactory(repo))[TaskViewModel::class.java]
 
+        taskViewModel.getTasksForUser(userId)
+        taskViewModel.tasksLiveData.observe(viewLifecycleOwner) { tasksList ->
+            val taskItems = mapTasksToTaskItems(tasksList)
+            adapter.submitList(taskItems)
+        }
 
+        val calendarRecyclerView = view.findViewById<RecyclerView>(R.id.calendarView)
+        val today = LocalDate.now()
+        val daysOfWeek = mutableListOf<DayModel>()
+
+        for (i in 0..6) {
+            val date = today.plusDays(i.toLong())
+            val dayName = date.dayOfWeek.name.take(3)
+            val dayNumber = date.dayOfMonth
+
+            daysOfWeek.add(DayModel(dayName, dayNumber))
+        }
+
+        val calendarAdapter = CalendarAdapter(daysOfWeek) { dayClicked ->
+            // Handle day clicked if needed
+        }
+
+        calendarRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        calendarRecyclerView.adapter = calendarAdapter
     }
 
+    private fun setUserId(): String {
+        val sharedPref = context?.getSharedPreferences("MasterPreference", Context.MODE_PRIVATE)
+        var userId = sharedPref?.getString("userId", null)
 
+        if (userId == null) {
+            userId = UUID.randomUUID().toString()
+            sharedPref?.edit()?.putString("userId", userId)?.apply()
+        }
+
+        return userId
     }
+
+    private fun mapTasksToTaskItems(tasks: List<TaskEntity>): List<TaskItem> {
+        val taskItems = mutableListOf<TaskItem>()
+        val groupedTasks = tasks.groupBy { it.taskDate }
+
+        for ((date, tasksOnThatDay) in groupedTasks) {
+            taskItems.add(TaskItem.Header(date))
+            for (task in tasksOnThatDay) {
+                taskItems.add(
+                    TaskItem.Task(
+                        title = task.taskTitle,
+                        description = task.taskDescription,
+                        startTime = task.taskStartDuration,
+                        endTime = task.taskEndDuration
+                    )
+                )
+            }
+        }
+
+        return taskItems
+    }
+}

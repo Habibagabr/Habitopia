@@ -17,7 +17,7 @@ interface TaskDAO {
     suspend fun deleteTask(task:TaskEntity)
 
     @Query("SELECT * FROM task_table WHERE userId = :userId ORDER BY userId ASC")
-    fun getTasksForUser(userId: String): LiveData<List<TaskEntity>>
+    suspend fun getTasksForUser(userId: String):List<TaskEntity>
 
 
 }

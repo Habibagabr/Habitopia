@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/home"
-    android:background="@color/light_beige">
+    android:background="#F2EDE5">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -66,30 +66,45 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- CalendarView -->
-        <CalendarView
-            android:id="@+id/calendarView"
-            android:layout_width="360dp"
-            android:layout_height="300dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/calender"
-            android:backgroundTint="#dab181"
-            android:elevation="5dp"
-            app:layout_constraintTop_toBottomOf="@id/header_container"
-            app:layout_constraintStart_toStartOf="parent"
+        <ImageView
+            android:id="@+id/calendericon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+            android:src="@drawable/calendericon"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5" />
+            app:layout_constraintTop_toBottomOf="@+id/header_container"
+            app:layout_constraintVertical_bias="0.625">
+
+        </ImageView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/calendarView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:clipToPadding="false"
+            android:elevation="20dp"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/calendericon" />
+
 
         <!-- RecyclerView -->
+
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/tasksRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
             android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@id/calendarView"
-            app:layout_constraintStart_toStartOf="parent"
+            android:padding="10dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/calendarView"
             tools:listitem="@layout/taskitem" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
