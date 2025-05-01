@@ -1,6 +1,6 @@
 package com.habiba.habitopia.Adapters
 
-import com.habiba.habitopia.CharacterViewModel
+import com.habiba.habitopia.ViewModel.CharacterViewModel
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

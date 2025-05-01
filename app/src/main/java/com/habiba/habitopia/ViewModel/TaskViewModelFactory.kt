@@ -1,7 +1,8 @@
-package com.habiba.habitopia
+package com.habiba.habitopia.ViewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.habiba.habitopia.Repository.TaskRepo
 
 class TaskViewModelFactory(private val repository: TaskRepo) : ViewModelProvider.Factory {
 

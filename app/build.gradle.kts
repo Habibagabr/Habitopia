@@ -17,6 +17,9 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary = true
+        }
     }
 
     buildFeatures {
@@ -41,6 +44,7 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
 }
 
 dependencies {
@@ -57,12 +61,14 @@ dependencies {
 
     // Image loading and SVG support
     implementation(libs.glide)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
     kapt(libs.glide)
     implementation(libs.androidsvg)
 
     // Room database
     implementation(libs.room.runtime)
     kapt(libs.room.compiler)
+    implementation("androidx.room:room-ktx:2.6.1")
 
     // Lifecycle components
     implementation(libs.lifecycle.viewmodel.ktx)
@@ -72,7 +78,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation("androidx.room:room-ktx:2.6.1")
 
-
+    // Animation
+    implementation("com.airbnb.android:lottie:6.1.0")
 }

@@ -71,10 +71,11 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_margin="10dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="364dp"
             android:src="@drawable/calendericon"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/header_container"
-            app:layout_constraintVertical_bias="0.625">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/header_container">
 
         </ImageView>
 
@@ -92,13 +93,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/calendericon" />
 
-
         <!-- RecyclerView -->
-
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/tasksRecyclerView"
             android:layout_width="match_parent"
+            android:minHeight="300dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:padding="10dp"
@@ -106,6 +106,47 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/calendarView"
             tools:listitem="@layout/taskitem" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/animationContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="350dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/calendarView"
+            app:layout_constraintVertical_bias="0.0">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lottieAnimationView"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/notask" />
+
+            <TextView
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:text="Your to-do list is empty. Let's fill it with greatness!"
+                android:textAlignment="center"
+                android:textColor="@color/blue"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lottieAnimationView">
+
+            </TextView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

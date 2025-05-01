@@ -1,11 +1,11 @@
-package com.habiba.habitopia
+package com.habiba.habitopia.DataBase
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-//i have changed the schema one time
-@Database(entities = [TaskEntity::class], version = 2, exportSchema = false)
+//I had changed the schema two times
+@Database(entities = [TaskEntity::class], version = 4, exportSchema = false)
 abstract class TaskDatabase : RoomDatabase() {
 
     abstract fun taskDao(): TaskDAO

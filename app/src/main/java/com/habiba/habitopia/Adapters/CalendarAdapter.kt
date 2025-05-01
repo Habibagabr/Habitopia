@@ -48,10 +48,6 @@ class CalendarAdapter(
                 dayName.setTextColor(ContextCompat.getColor(itemView.context, R.color.white))
                 dayNumber.setTextColor(ContextCompat.getColor(itemView.context, R.color.green))
             }
-
-            // خلي الكارد ثابت لونه أزرق دايمًا (مش بيتغير مع الضغط)
-
-
             itemView.setOnClickListener {
                 val previousSelected = selectedPosition
                 selectedPosition = adapterPosition

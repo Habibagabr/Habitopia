@@ -1,6 +1,5 @@
-package com.habiba.habitopia
+package com.habiba.habitopia.ViewModel
 
-import android.widget.ImageView
 import androidx.lifecycle.ViewModel
 
 class CharacterViewModel : ViewModel() {

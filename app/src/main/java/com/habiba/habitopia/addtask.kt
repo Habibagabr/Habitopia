@@ -12,27 +12,32 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.chip.Chip
+import com.habiba.habitopia.DataBase.TaskDAO
+import com.habiba.habitopia.DataBase.TaskDatabase
+import com.habiba.habitopia.DataBase.TaskEntity
+import com.habiba.habitopia.Repository.TaskRepo
+import com.habiba.habitopia.ViewModel.TaskViewModel
+import com.habiba.habitopia.ViewModel.TaskViewModelFactory
 import com.habiba.habitopia.databinding.FragmentAddtaskBinding
 import java.util.Calendar
 
 class addtask : Fragment() {
     private var _binding:FragmentAddtaskBinding?=null
     private val binding  get() = _binding!!
-    private lateinit var viewModel:TaskViewModel
+    private lateinit var viewModel: TaskViewModel
     private lateinit var repo: TaskRepo
     private lateinit var database: TaskDatabase
     private lateinit var dao: TaskDAO
-    private lateinit var taskEntity: TaskEntity
+    private var taskEntity: TaskEntity?=null
     private lateinit var userId:String
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
+    private var category:String?="Your Task"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,13 +50,14 @@ class addtask : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        database= TaskDatabase.getDatabase(requireContext())
-        dao=database.taskDao()
-        repo = TaskRepo(dao)
-        viewModel = ViewModelProvider(this, TaskViewModelFactory(repo)).get(TaskViewModel::class.java)
-        val sharedPref = context?.getSharedPreferences("MasterPreference", Context.MODE_PRIVATE)
-        userId = sharedPref?.getString("userId", null).toString()
 
+        database = TaskDatabase.getDatabase(requireContext())
+        dao = database.taskDao()
+        repo = TaskRepo(dao)
+        viewModel = ViewModelProvider(this, TaskViewModelFactory(repo))[TaskViewModel::class.java]
+
+        val sharedPref = requireContext().getSharedPreferences("MasterPreference", Context.MODE_PRIVATE)
+        userId = sharedPref.getString("userId", null).toString()
 
         binding.startTimeButton.setOnClickListener {
             setTime(binding.startTimeButton)
@@ -59,6 +65,7 @@ class addtask : Fragment() {
         binding.endTimeButton.setOnClickListener {
             setTime(binding.endTimeButton)
         }
+
         binding.datePickerButton.setOnClickListener {
             val calendar = Calendar.getInstance()
             val year = calendar.get(Calendar.YEAR)
@@ -68,26 +75,77 @@ class addtask : Fragment() {
             val datePicker = DatePickerDialog(
                 requireContext(),
                 { _, selectedYear, selectedMonth, selectedDay ->
-                    val formattedDate =
-                        String.format("%02d/%02d/%d", selectedDay, selectedMonth + 1, selectedYear)
-                    binding.datePickerButton.setText(formattedDate)
+                    val formattedDate = String.format("%04d-%02d-%02d", selectedYear, selectedMonth + 1, selectedDay)
+                    binding.datePickerButton.text = formattedDate
+                    updateDoneButtonColor()
                 },
                 year, month, day
             )
-            //no before date just forward income date
             datePicker.datePicker.minDate = calendar.timeInMillis
-
             datePicker.show()
         }
 
+        binding.editText.addTextChangedListener {
+            updateDoneButtonColor()
+        }
+
         binding.Done.setOnClickListener {
-
-            viewModel.insertTask( checkVerifyingNullInput())
-
+            checkVerifyingNullInput()?.let { task -> viewModel.insert(task) }
+        }
+        binding.chipPersonalGrowth.setOnClickListener{
+            setClickedChiped(binding.chipPersonalGrowth)
+        }
+        binding.chipHealthWellness.setOnClickListener{
+            setClickedChiped(binding.chipHealthWellness)
+        }
+        binding.chipWorkProjects.setOnClickListener{
+            setClickedChiped(binding.chipWorkProjects)
+        }
+        binding.chipDailyRoutine.setOnClickListener(){
+            setClickedChiped(binding.chipDailyRoutine)
+        }
+        binding.chipProductivity.setOnClickListener{
+            setClickedChiped(binding.chipProductivity)
+        }
+        binding.editTextCategory.setOnClickListener{
+            category=binding.editTextCategory.text.toString()
         }
     }
 
-    private fun checkVerifyingNullInput():TaskEntity {
+    private fun updateDoneButtonColor() {
+        val title = binding.editText.text.toString().trim()
+        val date = binding.datePickerButton.text.toString().trim()
+
+        if (title.isNotEmpty() && date.isNotEmpty() && date != "DD/MM/YY") {
+            binding.Done.setTextColor(ContextCompat.getColor(requireContext(), R.color.green))
+        } else {
+            binding.Done.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray))
+        }
+    }
+
+
+    private fun setClickedChiped(clickedChip: Chip) {
+        val chipList = listOf(
+            binding.chipProductivity to "Productivity and Focus",
+            binding.chipPersonalGrowth to "Personal Growth",
+            binding.chipDailyRoutine to "Daily Routine",
+            binding.chipWorkProjects to "Work and Project",
+            binding.chipHealthWellness to "Health and Wellness",
+        )
+
+        for ((chip, text) in chipList) {
+            if (chip == clickedChip) {
+                chip.setChipIconResource(R.drawable.categorycheck)
+                category=text
+
+            } else {
+                chip.setChipIconResource(R.drawable.circle)
+            }
+        }
+    }
+
+
+    private fun checkVerifyingNullInput(): TaskEntity? {
         val title = binding.editText.text.toString().trim()
         val description = binding.editText2.text.toString().trim()
         val date = binding.datePickerButton.text.toString().trim()
@@ -95,26 +153,43 @@ class addtask : Fragment() {
         val endTime = binding.endTimeButton.text.toString().trim()
 
         when {
-            title.isEmpty() -> {
+            title.isBlank() -> {
                 Toast.makeText(requireContext(), "Please enter a Task Title", Toast.LENGTH_SHORT).show()
+
             }
-            description.isEmpty() -> {
-                Toast.makeText(requireContext(), "Please enter a Task Description", Toast.LENGTH_SHORT).show()
-            }
-            date.isEmpty() || date == "DD/MM/YY" -> {
+            date.isBlank() || date == "DD/MM/YY" -> {
                 Toast.makeText(requireContext(), "Please select a Date", Toast.LENGTH_SHORT).show()
             }
-            startTime.isEmpty() || startTime == "00:00" -> {
-                Toast.makeText(requireContext(), "Please select a Start Time", Toast.LENGTH_SHORT).show()
-            }
-            endTime.isEmpty() || endTime == "00:00" -> {
-                Toast.makeText(requireContext(), "Please select an End Time", Toast.LENGTH_SHORT).show()
-            }
-            else -> {
-                taskEntity= TaskEntity(0, userId ,title,description,startTime,endTime, date)
-
+            date.isNotBlank() && title.isNotBlank()->{
+                binding.Done.setTextColor(requireContext().getColor(R.color.green))
+                taskEntity= TaskEntity(0, userId ,title,description,startTime,endTime, date,category)
                 showSuccessDialog()
+
             }
+//            startTime.isEmpty() || startTime == "00:00" -> {
+//                Toast.makeText(requireContext(), "Please select a Start Time", Toast.LENGTH_SHORT).show()
+//            }
+//            endTime.isEmpty() || endTime == "00:00" -> {
+//                Toast.makeText(requireContext(), "Please select an End Time", Toast.LENGTH_SHORT).show()
+//
+//            }
+
+//            description.isBlank() -> {
+//                Toast.makeText(requireContext(), "Please enter a Task Description", Toast.LENGTH_SHORT).show()
+//
+//            }
+//            startTime.isEmpty() || startTime == "00:00" -> {
+//                Toast.makeText(requireContext(), "Please select a Start Time", Toast.LENGTH_SHORT).show()
+//            }
+//            endTime.isEmpty() || endTime == "00:00" -> {
+//                Toast.makeText(requireContext(), "Please select an End Time", Toast.LENGTH_SHORT).show()
+//
+//            }
+//            category?.isNullOrEmpty() == true ->
+//            {
+//                Toast.makeText(requireContext(), "Please select the Task Category", Toast.LENGTH_SHORT).show()
+//
+//            }
         }
         return taskEntity
     }
@@ -129,6 +204,7 @@ class addtask : Fragment() {
                 .setTitle(title)
                 .setMessage(message)
                 .setPositiveButton("OK") { dialogInterface, _ ->
+                    findNavController().navigate(R.id.action_addtask_to_home2)
                     dialogInterface.dismiss()
                 }
                 .create()

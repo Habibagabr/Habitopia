@@ -1,17 +1,14 @@
 package com.habiba.habitopia
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import com.habiba.habitopia.CharactersData.homeViewModel
+import com.habiba.habitopia.ViewModel.homeViewModel
 import com.habiba.habitopia.databinding.ActivityMain2Binding
 
 class MainActivity2 : AppCompatActivity() {
@@ -40,9 +37,6 @@ class MainActivity2 : AppCompatActivity() {
         }
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         val navController = navHostFragment.navController
-
-        val name = intent.getStringExtra("name")
-        viewModel.characterName=name
 
 
         binding.homeIcon.setOnClickListener {

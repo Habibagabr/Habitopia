@@ -35,5 +35,9 @@
         android:id="@+id/addtask"
         android:name="com.habiba.habitopia.addtask"
         android:label="fragment_addtask"
-        tools:layout="@layout/fragment_addtask" />
+        tools:layout="@layout/fragment_addtask" >
+        <action
+            android:id="@+id/action_addtask_to_home2"
+            app:destination="@id/home2" />
+    </fragment>
 </navigation>

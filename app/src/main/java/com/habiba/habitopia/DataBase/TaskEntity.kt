@@ -1,4 +1,4 @@
-package com.habiba.habitopia
+package com.habiba.habitopia.DataBase
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -12,7 +12,9 @@ data class TaskEntity(
     var taskDescription:String,
     var taskStartDuration:String,
     var taskEndDuration:String,
-    var taskDate:String
+    var taskDate:String,
+    var taskCategory:String?,
+    var taskDone:Int=0
 
 )
 

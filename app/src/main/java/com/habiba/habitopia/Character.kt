@@ -16,6 +16,7 @@ import com.habiba.habitopia.Adapters.stylesRecyclerAdapter
 import com.habiba.habitopia.CharactersData.femaledata
 import com.habiba.habitopia.CharactersData.maledata
 import com.habiba.habitopia.CharactersData.styleColors
+import com.habiba.habitopia.ViewModel.CharacterViewModel
 import com.habiba.habitopia.databinding.FragmentCharacterBinding
 import com.habiba.habitopia.utils.renderSvgToBitmapWithDynamicWebView
 

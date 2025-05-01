@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import com.habiba.habitopia.CharacterViewModel
+import com.habiba.habitopia.ViewModel.CharacterViewModel
 import com.habiba.habitopia.R
 import com.habiba.habitopia.utils.renderSvgToBitmapWithDynamicWebView
 

@@ -1,9 +1,8 @@
-package com.habiba.habitopia.CharactersData
+package com.habiba.habitopia.ViewModel
 
 import androidx.lifecycle.ViewModel
 
 class homeViewModel : ViewModel() {
-    var characterName: String? = null
 
     fun setAvater(character: String, eye: String, mouth: String):String {
         var newUrl = character

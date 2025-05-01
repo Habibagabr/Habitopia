@@ -3,21 +3,16 @@ package com.habiba.habitopia
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.TextView
-import androidx.activity.addCallback
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.bumptech.glide.Glide
-import com.google.android.material.imageview.ShapeableImageView
+import com.habiba.habitopia.ViewModel.CharacterViewModel
 import com.habiba.habitopia.utils.renderSvgToBitmapWithDynamicWebView
 
 class Naming : Fragment() {
@@ -39,6 +34,8 @@ class Naming : Fragment() {
         super.onViewCreated(view, savedInstanceState)
          val viewModel: CharacterViewModel by activityViewModels()
         val gender=args.gender
+        context?.deleteSharedPreferences("MasterPreference")
+
         image=viewModel.buildAvatarUrl(gender)
         character=view.findViewById(R.id.finalImage)
         renderSvgToBitmapWithDynamicWebView(
@@ -71,7 +68,10 @@ class Naming : Fragment() {
                     .apply()
 
                 val intent = Intent(requireContext(), MainActivity2::class.java)
-                intent.putExtra("name", name)
+                val namSharedPref=requireContext().getSharedPreferences("name Preference",Context.MODE_PRIVATE)
+                namSharedPref.edit()
+                    .putString("character name",name)
+                    .apply()
                 startActivity(intent)
         }
         }

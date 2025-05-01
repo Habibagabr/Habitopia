@@ -1,7 +1,7 @@
 package com.habiba.habitopia.Adapters
 
 import android.graphics.Color
-import android.util.Log
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,19 +11,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.habiba.habitopia.R
 
-
-/*
-* point of concern :
-* recycler view have to read from the live data in the view model , we will use a new approach for me which is :
-* we won't build a new recycler view content every time new task added as its not efficient and will lead to lag specially when the list is too huge after time
-* so we will use a new approach which is depends on comparing between the old and the new list , update which is only need for update
-* so the adapter will inherit from ListAdapter and we will create the class which is responsible for the comparing
-* in the past --> inherit from recycler view adapter --> takes list<TaskItem> every time take the list as a new list neglect the past one
-* now --> inherit from listAdapter "improved version of recyclerView.adapter"
-* when to use the default one ? --> no a lot of changes happened to the recycler view " like colour recycler view "
-* when to use the new one ? --> a lot of changes made " user adding , removing , editing "
-* */
-class TaskAdapter : ListAdapter<TaskItem, RecyclerView.ViewHolder>(TaskDiffCallback()) {
+class TaskAdapter(private val onTaskClick: (TaskItem.Task) -> Unit) :
+    ListAdapter<TaskItem, RecyclerView.ViewHolder>(TaskDiffCallback()) {
 
     private val taskColors = listOf(
         "#F28585",
@@ -35,6 +24,9 @@ class TaskAdapter : ListAdapter<TaskItem, RecyclerView.ViewHolder>(TaskDiffCallb
     companion object {
         private const val VIEW_TYPE_HEADER = 0
         private const val VIEW_TYPE_TASK = 1
+
+        // Track last click time for each position to detect double click
+        private val lastClickTimeMap = mutableMapOf<Int, Long>()
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -63,8 +55,7 @@ class TaskAdapter : ListAdapter<TaskItem, RecyclerView.ViewHolder>(TaskDiffCallb
             is TaskItem.Header -> (holder as HeaderViewHolder).bind(item)
             is TaskItem.Task -> {
                 val color = Color.parseColor(taskColors[position % taskColors.size])
-                (holder as TaskViewHolder).bind(item, color)
-                Log.d("color first", taskColors[position % taskColors.size])
+                (holder as TaskViewHolder).bind(item, color, onTaskClick)
             }
         }
     }
@@ -81,13 +72,53 @@ class TaskAdapter : ListAdapter<TaskItem, RecyclerView.ViewHolder>(TaskDiffCallb
         private val taskTitle: TextView = itemView.findViewById(R.id.taskTitle)
         private val taskDescription: TextView = itemView.findViewById(R.id.taskDescription)
         private val taskCard: CardView = itemView.findViewById(R.id.taskCard)
+        private val category: TextView = itemView.findViewById(R.id.taskCategory)
+        private val taskTime: TextView = itemView.findViewById(R.id.taskTime)
+        private val taskIcon: CardView = itemView.findViewById(R.id.checkIcon)
 
-        fun bind(item: TaskItem.Task, color: Int) {
+        fun bind(item: TaskItem.Task, color: Int, onClick: (TaskItem.Task) -> Unit) {
             taskTitle.text = item.title
-            taskDescription.text = item.description
+            taskDescription.text = item.description ?: ""
+            category.text = item.category
+            taskTime.text = "${item.startTime} - ${item.endTime}"
+
+            fun updateUI(done: Boolean) {
+                if (done) {
+                    taskCard.alpha = 0.4f
+                    taskTitle.paintFlags = taskTitle.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                    taskDescription.alpha = 0.4f
+                    taskTime.alpha = 0.4f
+                    category.alpha = 0.4f
+                    taskIcon.setCardBackgroundColor(color)
+                } else {
+                    taskCard.alpha = 1f
+                    taskTitle.paintFlags = taskTitle.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+                    taskDescription.alpha = 1f
+                    taskTime.alpha = 1f
+                    category.alpha = 1f
+                    taskIcon.setCardBackgroundColor(Color.WHITE)
+
+                }
+            }
+
+            // Initial UI update
+            updateUI(item.taskDone == 1)
             taskCard.setCardBackgroundColor(color)
-            Log.d("color", color.toString())
+
+            // Handle double click
+            itemView.setOnClickListener {
+                val position = adapterPosition
+                val currentTime = System.currentTimeMillis()
+                val lastClickTime = lastClickTimeMap[position] ?: 0L
+
+                if (currentTime - lastClickTime < 300) {
+                    val toggledTask = item.copy(taskDone = if (item.taskDone == 1) 0 else 1)
+                    onClick(toggledTask)  // Update in DB + ViewModel
+                    updateUI(toggledTask.taskDone == 1)  // Optimistic UI update
+                }
+
+                lastClickTimeMap[position] = currentTime
+            }
         }
     }
 }
-

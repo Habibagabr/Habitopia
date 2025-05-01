@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- Title -->
 
         <!-- Task Title -->
         <TextView
@@ -41,7 +40,7 @@
             android:gravity="center_horizontal"
             android:text="@string/doneTask"
             android:textAlignment="center"
-            android:textColor="@color/green"
+            android:textColor="@color/gray"
             android:textSize="18sp"
             android:padding="4dp"
             android:textStyle="bold"
@@ -96,7 +95,7 @@
             android:layout_width="350dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:inputType="text"
+            android:inputType="textMultiLine"
             android:background="@drawable/rounded_button"
             android:backgroundTint="@color/beige"
             android:textColor="@color/darkBeige"
@@ -244,7 +243,7 @@
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/categoryChipGroup"
                 android:layout_width="0dp"
-                android:layout_height="280dp"
+                android:layout_height="310dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="24dp"
@@ -308,17 +307,25 @@
                     android:textColor="@android:color/white"
                     app:chipBackgroundColor="@color/darkBeige"/>
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipAddCategory"
-                    app:chipIconVisible="true"
-                    app:chipIcon="@drawable/circle"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                <EditText
+                    android:id="@+id/editTextCategory"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Others"
-                    android:textColor="@android:color/white"
-                    app:chipIconTint="@android:color/white"
-                    app:chipBackgroundColor="@color/blue"/>
+                    android:layout_height="35dp"
+                    android:backgroundTint="@color/blue"
+                    android:hint="Other Category"
+                    android:textColorHint="@color/white"
+                    android:textColor="@color/white"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="8dp"
+                    android:maxLines="1"
+                    android:textSize="12sp"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="8dp"
+                    android:inputType="text"
+                    android:background="@drawable/edittext_chip_background"
+                    android:layout_marginTop="15dp"
+                />
+
 
             </com.google.android.material.chip.ChipGroup>
 
