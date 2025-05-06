@@ -10,6 +10,8 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.habiba.habitopia.R
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class TaskAdapter(private val onTaskClick: (TaskItem.Task) -> Unit) :
     ListAdapter<TaskItem, RecyclerView.ViewHolder>(TaskDiffCallback()) {
@@ -64,7 +66,15 @@ class TaskAdapter(private val onTaskClick: (TaskItem.Task) -> Unit) :
         private val headerText: TextView = itemView.findViewById(R.id.headerTitle)
 
         fun bind(item: TaskItem.Header) {
-            headerText.text = item.date
+            headerText.text = formatToHumanDate(item.date)
+        }
+
+        private fun formatToHumanDate(date: String): CharSequence? {
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            val date = inputFormat.parse(date)
+            val outputFormat = SimpleDateFormat("EEEE, MMMM d, yyyy", Locale.getDefault())
+            return outputFormat.format(date!!)
+
         }
     }
 
@@ -120,5 +130,7 @@ class TaskAdapter(private val onTaskClick: (TaskItem.Task) -> Unit) :
                 lastClickTimeMap[position] = currentTime
             }
         }
+
+
     }
 }

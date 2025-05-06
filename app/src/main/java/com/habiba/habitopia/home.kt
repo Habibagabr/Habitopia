@@ -15,6 +15,7 @@ import com.habiba.habitopia.Adapters.CalendarAdapter
 import com.habiba.habitopia.Adapters.DayModel
 import com.habiba.habitopia.Adapters.TaskAdapter
 import com.habiba.habitopia.Adapters.TaskItem
+import com.habiba.habitopia.Adapters.habitsAdapter
 import com.habiba.habitopia.DataBase.TaskDAO
 import com.habiba.habitopia.DataBase.TaskDatabase
 import com.habiba.habitopia.DataBase.TaskEntity
@@ -38,6 +39,8 @@ class home : Fragment() {
     private lateinit var dao: TaskDAO
     private lateinit var userId: String
     private var allTasks: List<TaskEntity> = emptyList()
+    private lateinit var habitsAdapter: habitsAdapter
+    private lateinit var habitsRecyclerView: RecyclerView
 
 
     override fun onCreateView(
@@ -83,7 +86,6 @@ class home : Fragment() {
             taskViewModel.toggleTaskDone(toggledTask.taskId, toggledTask.taskDone)
             taskViewModel.getTasksForUser(userId)
         }
-
 
 
         recyclerView.adapter = adapter
@@ -185,6 +187,33 @@ class home : Fragment() {
             datePicker.datePicker.minDate = calendar.timeInMillis
             datePicker.show()
         }
+
+        var habitsList = listOf(
+            HabitsDataClass(taskTitle = "Reading", taskEmoji = "📖"),
+            HabitsDataClass(taskTitle = "Running", taskEmoji = "🏃‍♀️"),
+            HabitsDataClass(taskTitle = "Meditation", taskEmoji = "🧘"),
+            HabitsDataClass(taskTitle = "Drinking Water", taskEmoji = "💧"),
+            HabitsDataClass(taskTitle = "Waking Up Early", taskEmoji = "⏰"),
+            HabitsDataClass(taskTitle = "Journaling", taskEmoji = "📓"),
+            HabitsDataClass(taskTitle = "Healthy Eating", taskEmoji = "🥗"),
+            HabitsDataClass(taskTitle = "Studying", taskEmoji = "📚"),
+            HabitsDataClass(taskTitle = "Cleaning", taskEmoji = "🧹"),
+            HabitsDataClass(taskTitle = "Sleeping Early", taskEmoji = "😴")
+        )
+
+        habitsAdapter= habitsAdapter(habitsList)
+        habitsRecyclerView=view.findViewById(R.id.habitsRecyclerView)
+        habitsRecyclerView.adapter=habitsAdapter
+        habitsRecyclerView.layoutManager=LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
+
+
+
+
+
+
+
+
     }
 
 
