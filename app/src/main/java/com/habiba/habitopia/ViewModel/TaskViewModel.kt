@@ -5,8 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.habiba.habitopia.Repository.TaskRepo
 import com.habiba.habitopia.DataBase.TaskEntity
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -16,12 +14,16 @@ class TaskViewModel(private val repo: TaskRepo) : ViewModel() {
     private val _tasksLiveData = MutableLiveData<List<TaskEntity>>()
     val tasksLiveData: LiveData<List<TaskEntity>> get() = _tasksLiveData
 
+    private var currentUserId: String = ""
+
     fun getTasksForUser(userId: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+        currentUserId = userId
+        viewModelScope.launch {
             val tasks = repo.getTasksForUser(userId)
             _tasksLiveData.postValue(tasks)
         }
     }
+
     fun insert(taskEntity: TaskEntity)
     {
         viewModelScope.launch (Dispatchers.IO)
@@ -30,15 +32,24 @@ class TaskViewModel(private val repo: TaskRepo) : ViewModel() {
         }
     }
 
-    fun markTaskDone(taskId: String) {
+    fun markTaskDone(taskId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             repo.markTaskDone(taskId)
         }
     }
-    fun toggleTaskDone(taskId: String, done: Int) {
+    fun toggleTaskDone(taskId: Int, done: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             repo.setTaskDone(taskId, done)
         }
     }
+
+    fun deleteTask(taskId: Int) {
+        viewModelScope.launch {
+            repo.deleteTask(taskId)
+            getTasksForUser(currentUserId) // عشان يعيد تحميل التاسكات تلقائيًا
+        }
+    }
+
+
 
 }

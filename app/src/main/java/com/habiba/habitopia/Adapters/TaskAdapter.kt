@@ -5,6 +5,7 @@ import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.ListAdapter
@@ -13,8 +14,10 @@ import com.habiba.habitopia.R
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class TaskAdapter(private val onTaskClick: (TaskItem.Task) -> Unit) :
-    ListAdapter<TaskItem, RecyclerView.ViewHolder>(TaskDiffCallback()) {
+class TaskAdapter(
+    private val onTaskClick: (TaskItem.Task) -> Unit,
+    private val onTaskDelete: (TaskItem.Task) -> Unit
+) : ListAdapter<TaskItem, RecyclerView.ViewHolder>(TaskDiffCallback()) {
 
     private val taskColors = listOf(
         "#F28585",
@@ -27,7 +30,6 @@ class TaskAdapter(private val onTaskClick: (TaskItem.Task) -> Unit) :
         private const val VIEW_TYPE_HEADER = 0
         private const val VIEW_TYPE_TASK = 1
 
-        // Track last click time for each position to detect double click
         private val lastClickTimeMap = mutableMapOf<Int, Long>()
     }
 
@@ -44,10 +46,12 @@ class TaskAdapter(private val onTaskClick: (TaskItem.Task) -> Unit) :
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.taskheader, parent, false)
                 HeaderViewHolder(view)
             }
+
             VIEW_TYPE_TASK -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.taskitem, parent, false)
                 TaskViewHolder(view)
             }
+
             else -> throw IllegalArgumentException("Invalid view type")
         }
     }
@@ -57,7 +61,7 @@ class TaskAdapter(private val onTaskClick: (TaskItem.Task) -> Unit) :
             is TaskItem.Header -> (holder as HeaderViewHolder).bind(item)
             is TaskItem.Task -> {
                 val color = Color.parseColor(taskColors[position % taskColors.size])
-                (holder as TaskViewHolder).bind(item, color, onTaskClick)
+                (holder as TaskViewHolder).bind(item, color, onTaskClick, onTaskDelete)
             }
         }
     }
@@ -71,10 +75,9 @@ class TaskAdapter(private val onTaskClick: (TaskItem.Task) -> Unit) :
 
         private fun formatToHumanDate(date: String): CharSequence? {
             val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-            val date = inputFormat.parse(date)
+            val dateParsed = inputFormat.parse(date)
             val outputFormat = SimpleDateFormat("EEEE, MMMM d, yyyy", Locale.getDefault())
-            return outputFormat.format(date!!)
-
+            return outputFormat.format(dateParsed!!)
         }
     }
 
@@ -85,8 +88,14 @@ class TaskAdapter(private val onTaskClick: (TaskItem.Task) -> Unit) :
         private val category: TextView = itemView.findViewById(R.id.taskCategory)
         private val taskTime: TextView = itemView.findViewById(R.id.taskTime)
         private val taskIcon: CardView = itemView.findViewById(R.id.checkIcon)
+        private val deleteIcon: CardView = itemView.findViewById(R.id.recyclerbin)
 
-        fun bind(item: TaskItem.Task, color: Int, onClick: (TaskItem.Task) -> Unit) {
+        fun bind(
+            item: TaskItem.Task,
+            color: Int,
+            onClick: (TaskItem.Task) -> Unit,
+            onDeleteClick: (TaskItem.Task) -> Unit
+        ) {
             taskTitle.text = item.title
             taskDescription.text = item.description ?: ""
             category.text = item.category
@@ -107,7 +116,6 @@ class TaskAdapter(private val onTaskClick: (TaskItem.Task) -> Unit) :
                     taskTime.alpha = 1f
                     category.alpha = 1f
                     taskIcon.setCardBackgroundColor(Color.WHITE)
-
                 }
             }
 
@@ -115,7 +123,7 @@ class TaskAdapter(private val onTaskClick: (TaskItem.Task) -> Unit) :
             updateUI(item.taskDone == 1)
             taskCard.setCardBackgroundColor(color)
 
-            // Handle double click
+            // Handle double click toggle
             itemView.setOnClickListener {
                 val position = adapterPosition
                 val currentTime = System.currentTimeMillis()
@@ -123,14 +131,17 @@ class TaskAdapter(private val onTaskClick: (TaskItem.Task) -> Unit) :
 
                 if (currentTime - lastClickTime < 300) {
                     val toggledTask = item.copy(taskDone = if (item.taskDone == 1) 0 else 1)
-                    onClick(toggledTask)  // Update in DB + ViewModel
-                    updateUI(toggledTask.taskDone == 1)  // Optimistic UI update
+                    onClick(toggledTask)
+                    updateUI(toggledTask.taskDone == 1)
                 }
 
                 lastClickTimeMap[position] = currentTime
             }
+
+            // Handle delete click
+            deleteIcon.setOnClickListener {
+                onDeleteClick(item)
+            }
         }
-
-
     }
 }

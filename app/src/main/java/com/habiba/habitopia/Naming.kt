@@ -32,6 +32,7 @@ class Naming : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val image:String
         super.onViewCreated(view, savedInstanceState)
+
          val viewModel: CharacterViewModel by activityViewModels()
         val gender=args.gender
         context?.deleteSharedPreferences("MasterPreference")

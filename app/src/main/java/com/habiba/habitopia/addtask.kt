@@ -19,8 +19,8 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
+import com.habiba.habitopia.DataBase.AppDatabase
 import com.habiba.habitopia.DataBase.TaskDAO
-import com.habiba.habitopia.DataBase.TaskDatabase
 import com.habiba.habitopia.DataBase.TaskEntity
 import com.habiba.habitopia.Repository.TaskRepo
 import com.habiba.habitopia.ViewModel.TaskViewModel
@@ -33,7 +33,7 @@ class addtask : Fragment() {
     private val binding  get() = _binding!!
     private lateinit var viewModel: TaskViewModel
     private lateinit var repo: TaskRepo
-    private lateinit var database: TaskDatabase
+    private lateinit var database: AppDatabase
     private lateinit var dao: TaskDAO
     private var taskEntity: TaskEntity?=null
     private lateinit var userId:String
@@ -51,7 +51,7 @@ class addtask : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        database = TaskDatabase.getDatabase(requireContext())
+        database = AppDatabase.getDatabase(requireContext())
         dao = database.taskDao()
         repo = TaskRepo(dao)
         viewModel = ViewModelProvider(this, TaskViewModelFactory(repo))[TaskViewModel::class.java]

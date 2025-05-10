@@ -3,6 +3,8 @@
     <style name="Theme.YourApp" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
 
     </style>
+
+    
     <style name="Theme.Material3.DayNight.NoActionBar"
         parent="android:Theme.Material.Light.NoActionBar" />
         <!-- Customize your light theme here. -->

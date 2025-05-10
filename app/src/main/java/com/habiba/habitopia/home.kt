@@ -1,6 +1,8 @@
 package com.habiba.habitopia
 
+import HabitViewModel
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +10,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,13 +23,16 @@ import com.habiba.habitopia.Adapters.DayModel
 import com.habiba.habitopia.Adapters.TaskAdapter
 import com.habiba.habitopia.Adapters.TaskItem
 import com.habiba.habitopia.Adapters.habitsAdapter
+import com.habiba.habitopia.DataBase.AppDatabase
+import com.habiba.habitopia.DataBase.HabitsEntity
 import com.habiba.habitopia.DataBase.TaskDAO
-import com.habiba.habitopia.DataBase.TaskDatabase
 import com.habiba.habitopia.DataBase.TaskEntity
+import com.habiba.habitopia.Repository.HabitsRepo
 import com.habiba.habitopia.Repository.TaskRepo
+import com.habiba.habitopia.ViewModel.HabitViewModelFactory
 import com.habiba.habitopia.ViewModel.TaskViewModel
 import com.habiba.habitopia.ViewModel.TaskViewModelFactory
-import com.habiba.habitopia.ViewModel.homeViewModel
+import com.habiba.habitopia.ViewModel.HomeViewModel
 import com.habiba.habitopia.databinding.FragmentHomeBinding
 import com.habiba.habitopia.utils.renderSvgToBitmapWithDynamicWebView
 import java.time.LocalDate
@@ -32,15 +42,15 @@ import java.util.UUID
 class home : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private lateinit var homeViewModel: homeViewModel
+    private lateinit var homeViewModel: HomeViewModel
     private lateinit var taskViewModel: TaskViewModel
     private lateinit var repo: TaskRepo
-    private lateinit var database: TaskDatabase
-    private lateinit var dao: TaskDAO
+    private lateinit var database: AppDatabase
     private lateinit var userId: String
     private var allTasks: List<TaskEntity> = emptyList()
     private lateinit var habitsAdapter: habitsAdapter
     private lateinit var habitsRecyclerView: RecyclerView
+    private lateinit var taskdao:TaskDAO
 
 
     override fun onCreateView(
@@ -57,7 +67,7 @@ class home : Fragment() {
         // delete the old one to create a new one for the new user :
         userId = setUserId()
 
-        homeViewModel = homeViewModel()
+        homeViewModel = HomeViewModel()
 
 
         val sharedPref = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
@@ -82,17 +92,30 @@ class home : Fragment() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.tasksRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        val adapter = TaskAdapter { toggledTask ->
-            taskViewModel.toggleTaskDone(toggledTask.taskId, toggledTask.taskDone)
-            taskViewModel.getTasksForUser(userId)
-        }
+        val adapter = TaskAdapter(
+            onTaskClick = { toggledTask ->
+                taskViewModel.toggleTaskDone(toggledTask.taskId, toggledTask.taskDone)
+                taskViewModel.getTasksForUser(userId)
+            },
+            onTaskDelete = { task ->
+                AlertDialog.Builder(requireContext())
+                    .setTitle("Delete Task")
+                    .setMessage("Are you sure you want to delete this task?")
+                    .setPositiveButton("Yes") { _, _ ->
+                        taskViewModel.deleteTask(task.taskId)
+                        Toast.makeText(requireContext(), "Task deleted", Toast.LENGTH_SHORT).show()
+                    }
+                    .setNegativeButton("Cancel", null)
+                    .show()
+            }
+        )
 
 
         recyclerView.adapter = adapter
 
-        database = TaskDatabase.getDatabase(requireContext())
-        dao = database.taskDao()
-        repo = TaskRepo(dao)
+        database = AppDatabase.getDatabase(requireContext())
+        taskdao = database.taskDao()
+        repo = TaskRepo(taskdao)
 
         taskViewModel = ViewModelProvider(this, TaskViewModelFactory(repo))[TaskViewModel::class.java]
 
@@ -188,24 +211,80 @@ class home : Fragment() {
             datePicker.show()
         }
 
-        var habitsList = listOf(
-            HabitsDataClass(taskTitle = "Reading", taskEmoji = "📖"),
-            HabitsDataClass(taskTitle = "Running", taskEmoji = "🏃‍♀️"),
-            HabitsDataClass(taskTitle = "Meditation", taskEmoji = "🧘"),
-            HabitsDataClass(taskTitle = "Drinking Water", taskEmoji = "💧"),
-            HabitsDataClass(taskTitle = "Waking Up Early", taskEmoji = "⏰"),
-            HabitsDataClass(taskTitle = "Journaling", taskEmoji = "📓"),
-            HabitsDataClass(taskTitle = "Healthy Eating", taskEmoji = "🥗"),
-            HabitsDataClass(taskTitle = "Studying", taskEmoji = "📚"),
-            HabitsDataClass(taskTitle = "Cleaning", taskEmoji = "🧹"),
-            HabitsDataClass(taskTitle = "Sleeping Early", taskEmoji = "😴")
-        )
+        var habitsRepo = HabitsRepo(database.habitsDao())
+        var habitsViewModel =
+            ViewModelProvider(this, HabitViewModelFactory(habitsRepo))[HabitViewModel::class.java]
 
-        habitsAdapter= habitsAdapter(habitsList)
-        habitsRecyclerView=view.findViewById(R.id.habitsRecyclerView)
-        habitsRecyclerView.adapter=habitsAdapter
-        habitsRecyclerView.layoutManager=LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
+        habitsAdapter = habitsAdapter(emptyList())
+        habitsRecyclerView = view.findViewById(R.id.habitsRecyclerView)
+        habitsRecyclerView.adapter = habitsAdapter
+        habitsRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
+        habitsViewModel.getHabitsForUser(userId)
+
+        habitsViewModel.habitsLiveData.observe(viewLifecycleOwner) { habitsList ->
+            habitsAdapter.updateData(habitsList)
+        }
+
+
+        binding.addnewHabit.setOnClickListener{
+            binding.addnewHabit.setOnClickListener {
+                val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_task, null)
+
+                val taskNameInput = dialogView.findViewById<EditText>(R.id.taskNameInput)
+                val emojiInput = dialogView.findViewById<EditText>(R.id.emojiInput)
+                val timeText = dialogView.findViewById<TextView>(R.id.timeText)
+
+                var selectedHour = 0
+                var selectedMinute = 0
+
+                timeText.setOnClickListener {
+                    val timePicker = TimePickerDialog(requireContext(), { _, hour, minute ->
+                        selectedHour = hour
+                        selectedMinute = minute
+                        timeText.text = String.format("%02d:%02d", hour, minute)
+                    }, 12, 0, true)
+                    timePicker.show()
+                }
+
+                val titleView = LayoutInflater.from(requireContext()).inflate(R.layout.newhabittitle, null)
+
+                val dialog = AlertDialog.Builder(requireContext())
+                    .setTitle("Add New Habit")
+                    .setView(dialogView)
+                    .setCustomTitle(titleView)
+                    .setPositiveButton("Add") { _, _ ->
+                        val newHabit=HabitsEntity(
+                            userId = userId,
+                            habitsTitle = taskNameInput.text.toString(),
+                            habitsEmoji = emojiInput.text.toString(),
+                            habitsTime = String.format("%02d:%02d", selectedHour, selectedMinute)
+                        )
+                        habitsViewModel.insertHabit(newHabit)
+                        Toast.makeText(requireContext(), "The new Habit Added!", Toast.LENGTH_SHORT).show()
+
+
+                    }
+                    .setNegativeButton("Cancel", null)
+                    .create()
+                dialog.show()
+                dialog.window?.setBackgroundDrawableResource(R.drawable.rounded_button)
+                dialog.getButton(android.app.AlertDialog.BUTTON_POSITIVE)?.setTextColor(
+                    ContextCompat.getColor(requireContext(), R.color.white))
+                dialog.getButton(android.app.AlertDialog.BUTTON_NEGATIVE)?.setTextColor(
+                    ContextCompat.getColor(requireContext(), R.color.white))
+                dialog.getButton(android.app.AlertDialog.BUTTON_POSITIVE)?.setTextSize(16f)
+                dialog.getButton(android.app.AlertDialog.BUTTON_NEGATIVE)?.setTextSize(16f)
+
+
+
+
+
+            }
+
+
+        }
 
 
 
@@ -238,7 +317,7 @@ class home : Fragment() {
             for (task in tasksOnThatDay) {
                 taskItems.add(
                     TaskItem.Task(
-                        taskId = task.taskId.toString(),
+                        taskId = task.taskId,
                         title = task.taskTitle,
                         description = task.taskDescription,
                         startTime = task.taskStartDuration,

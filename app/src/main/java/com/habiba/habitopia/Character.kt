@@ -1,5 +1,6 @@
 package com.habiba.habitopia
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -32,6 +33,7 @@ class Character : Fragment() {
 
     private var _viewBinding: FragmentCharacterBinding? = null
     private val viewBinding get() = _viewBinding!!
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

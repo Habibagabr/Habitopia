@@ -12,16 +12,16 @@ interface TaskDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTask(task: TaskEntity)
 
-    @Delete
-    suspend fun deleteTask(task: TaskEntity)
+    @Query("DELETE FROM task_table WHERE taskId = :taskId")
+    suspend fun deleteTask(taskId: Int)
 
     @Query("SELECT * FROM task_table WHERE userId = :userId ORDER BY taskDate ")
     suspend fun getTasksForUser(userId: String):List<TaskEntity>
 
     @Query("UPDATE task_table SET taskDone = 1 WHERE taskId = :taskId")
-    suspend fun markTaskAsDone(taskId: String)
+    suspend fun markTaskAsDone(taskId: Int)
     
     @Query("UPDATE task_table SET taskDone = :done WHERE taskId = :taskId")
-    suspend fun setTaskDone(taskId: String, done: Int)
+    suspend fun setTaskDone(taskId: Int, done: Int)
 
 }

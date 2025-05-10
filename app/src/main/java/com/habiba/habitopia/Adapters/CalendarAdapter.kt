@@ -1,6 +1,5 @@
 package com.habiba.habitopia.Adapters
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +15,8 @@ class CalendarAdapter(
 ) : RecyclerView.Adapter<CalendarAdapter.DayViewHolder>() {
 
     private var selectedPosition = RecyclerView.NO_POSITION
+    var selectedDate: String? = null
+        private set
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DayViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_day, parent, false)
@@ -31,7 +32,7 @@ class CalendarAdapter(
     inner class DayViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val dayName: TextView = itemView.findViewById(R.id.dayName)
         private val dayNumber: TextView = itemView.findViewById(R.id.dayNumber)
-        private val card:CardView=itemView.findViewById(R.id.calendercard)
+        private val card: CardView = itemView.findViewById(R.id.calendercard)
 
         fun bind(day: DayModel, isSelected: Boolean) {
             dayName.text = day.dayName
@@ -48,9 +49,11 @@ class CalendarAdapter(
                 dayName.setTextColor(ContextCompat.getColor(itemView.context, R.color.white))
                 dayNumber.setTextColor(ContextCompat.getColor(itemView.context, R.color.green))
             }
+
             itemView.setOnClickListener {
                 val previousSelected = selectedPosition
                 selectedPosition = adapterPosition
+                selectedDate = day.date  // ✅ حفظ التاريخ المختار هنا
                 notifyItemChanged(previousSelected)
                 notifyItemChanged(selectedPosition)
                 onDayClick(day)
