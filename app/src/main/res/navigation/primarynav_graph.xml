@@ -3,7 +3,86 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/gender">
+    app:startDestination="@id/fragmentQ1">
+
+    <!-- Fragment Q1 -->
+    <fragment
+        android:id="@+id/fragmentQ1"
+        android:name="com.habiba.habitopia.FragmentQ1"
+        tools:layout="@layout/fragment_q1">
+
+        <action
+            android:id="@+id/action_fragmentQ1_to_fragmentQ2"
+            app:destination="@id/fragmentQ2"
+            app:popUpTo="@id/fragmentQ1"
+            app:popUpToInclusive="true"
+            />
+        <action
+            android:id="@+id/action_fragmentQ1_to_fragmentQ3"
+            app:destination="@id/fragmentQ3" />
+    </fragment>
+
+    <!-- Fragment Q2 -->
+    <fragment
+        android:id="@+id/fragmentQ2"
+        android:name="com.habiba.habitopia.FragmentQ2"
+        tools:layout="@layout/fragment_q2">
+
+        <action
+            android:id="@+id/action_fragmentQ2_to_fragmentQ3"
+            app:destination="@id/fragmentQ3"
+            app:popUpTo="@id/fragmentQ2"
+            app:popUpToInclusive="true"/>
+
+    </fragment>
+
+    <!-- Fragment Q3 -->
+    <fragment
+        android:id="@+id/fragmentQ3"
+        android:name="com.habiba.habitopia.FragmentQ3"
+        tools:layout="@layout/fragment_q3">
+
+        <action
+        android:id="@+id/action_fragmentQ3_to_fragmentQ4"
+        app:destination="@id/fragmentQ4"
+        app:popUpTo="@id/fragmentQ3"
+        app:popUpToInclusive="true"/>
+    </fragment>
+
+    <!-- Fragment Q4 -->
+    <fragment
+        android:id="@+id/fragmentQ4"
+        android:name="com.habiba.habitopia.FragmentQ4"
+        tools:layout="@layout/fragment_q4">
+
+        <action
+            android:id="@+id/action_fragmentQ4_to_fragmentQ5"
+            app:destination="@id/fragmentQ5"
+            app:popUpTo="@id/fragmentQ4"
+            app:popUpToInclusive="true"/>
+
+
+    </fragment>
+
+    <!-- Fragment Q5 -->
+    <fragment
+        android:id="@+id/fragmentQ5"
+        android:name="com.habiba.habitopia.FragmentQ5"
+        tools:layout="@layout/fragment_q5">
+
+        <action
+            android:id="@+id/action_fragmentQ5_to_mainScreenFragment"
+            app:popUpTo="@id/fragmentQ5"
+            app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_fragmentQ5_to_gender"
+            app:destination="@id/gender" />
+
+    </fragment>
+
+
+
+
 
     <fragment
         android:id="@+id/gender"

@@ -11,4 +11,6 @@
     <color name="pink">#FFB996</color>
     <color name="yellow">#FDFFAB</color>
     <color name="gray">#E0E0E0</color>
+    <color name="default_button_color">#F2EADF</color>
+    <color name="selected_button_color">#FFFFFF</color>
 </resources>
