@@ -32,11 +32,6 @@ class TaskViewModel(private val repo: TaskRepo) : ViewModel() {
         }
     }
 
-    fun markTaskDone(taskId: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repo.markTaskDone(taskId)
-        }
-    }
     fun toggleTaskDone(taskId: Int, done: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             repo.setTaskDone(taskId, done)
@@ -46,7 +41,7 @@ class TaskViewModel(private val repo: TaskRepo) : ViewModel() {
     fun deleteTask(taskId: Int) {
         viewModelScope.launch {
             repo.deleteTask(taskId)
-            getTasksForUser(currentUserId) // عشان يعيد تحميل التاسكات تلقائيًا
+            getTasksForUser(currentUserId)
         }
     }
 

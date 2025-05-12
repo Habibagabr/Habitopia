@@ -18,9 +18,7 @@ interface TaskDAO {
     @Query("SELECT * FROM task_table WHERE userId = :userId ORDER BY taskDate ")
     suspend fun getTasksForUser(userId: String):List<TaskEntity>
 
-    @Query("UPDATE task_table SET taskDone = 1 WHERE taskId = :taskId")
-    suspend fun markTaskAsDone(taskId: Int)
-    
+
     @Query("UPDATE task_table SET taskDone = :done WHERE taskId = :taskId")
     suspend fun setTaskDone(taskId: Int, done: Int)
 

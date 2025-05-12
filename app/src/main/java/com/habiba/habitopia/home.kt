@@ -104,11 +104,15 @@ class home : Fragment() {
                     .setPositiveButton("Yes") { _, _ ->
                         taskViewModel.deleteTask(task.taskId)
                         Toast.makeText(requireContext(), "Task deleted", Toast.LENGTH_SHORT).show()
+
+                        // ✅ إعادة تحميل المهام بعد الحذف مباشرة
+                        taskViewModel.getTasksForUser(userId)
                     }
                     .setNegativeButton("Cancel", null)
                     .show()
             }
         )
+
 
 
         recyclerView.adapter = adapter
@@ -123,14 +127,17 @@ class home : Fragment() {
 
         taskViewModel.tasksLiveData.observe(viewLifecycleOwner) { tasksList ->
             allTasks = tasksList
-            if(allTasks.isEmpty())
-                binding.animationContainer.visibility=View.VISIBLE
-            else {
-                binding.animationContainer.visibility=View.GONE
-                val taskItems = mapTasksToTaskItems(tasksList)
-                adapter.submitList(taskItems)
+            val taskItems = mapTasksToTaskItems(tasksList)
+
+            if (taskItems.isEmpty()) {
+                binding.animationContainer.visibility = View.VISIBLE
+            } else {
+                binding.animationContainer.visibility = View.GONE
             }
+
+            adapter.submitList(taskItems.toList())
         }
+
 
 
         val calendarRecyclerView = view.findViewById<RecyclerView>(R.id.calendarView)

@@ -22,11 +22,6 @@ class TaskRepo(private val taskDao: TaskDAO) {
     }
 
 
-    // Mark task as done
-    suspend fun markTaskDone(taskId: Int)
-    {
-        taskDao.markTaskAsDone(taskId)
-    }
 
     suspend fun setTaskDone(taskId: Int, done: Int) {
         taskDao.setTaskDone(taskId, done)
