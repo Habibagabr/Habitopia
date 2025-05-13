@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F0E6">
+
+    <!-- Motivational Text -->
+    <TextView
+        android:id="@+id/tvQuote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tick by tick, you’re achieving greatness."
+        android:textSize="20sp"
+        android:textColor="#2D5D65"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:fontFamily="sans-serif-medium" />
+
+    <!-- Clouds -->
+    <ImageView
+        android:id="@+id/cloud2"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="150dp"
+        android:src="@drawable/cloud" />
+
+    <ImageView
+        android:id="@+id/cloud1"
+        android:layout_width="380dp"
+        android:layout_height="300dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="155dp"
+        android:layout_marginTop="100dp"
+        android:src="@drawable/cloud" />
+
+    <ImageView
+        android:id="@+id/cloud3"
+        android:layout_width="180dp"
+        android:layout_height="500dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="-23dp"
+        android:src="@drawable/cloud" />
+
+    <!-- Timer Circle Progress -->
+    <ProgressBar
+        android:id="@+id/progressCircle"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="400dp"
+        android:layout_height="393dp"
+        android:layout_centerInParent="true"
+        android:indeterminate="false"
+        android:max="100"
+        android:progress="1"
+        android:progressDrawable="@drawable/rring" />
+
+    <!-- Timer Text -->
+    <TextView
+        android:id="@+id/tvTimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="22:30"
+        android:textSize="40sp"
+        android:textColor="#D09A6A"
+        android:layout_centerInParent="true"
+        android:fontFamily="sans-serif-medium"/>
+
+    <!-- Control Buttons (Play/Pause, Reload, Set Time) -->
+    <LinearLayout
+        android:id="@+id/controlsLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_below="@id/progressCircle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp">
+
+        <!-- Play/Pause Button -->
+        <ImageButton
+            android:id="@+id/btnPlayPause"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:background="@drawable/bg_round_white"
+            android:src="@drawable/play"
+            android:padding="16dp" />
+
+        <!-- Reload Button -->
+        <ImageButton
+            android:id="@+id/btnReload"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:background="@drawable/bg_round_white"
+            android:src="@drawable/reload"
+            android:padding="16dp"
+            android:layout_marginStart="20dp" />
+
+        <!-- Set Time Button -->
+        <ImageButton
+            android:id="@+id/btnSetTime"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:background="@drawable/bg_round_white"
+            android:src="@drawable/sett"
+            android:padding="16dp"
+            android:layout_marginStart="20dp" />
+    </LinearLayout>
+
+</RelativeLayout>

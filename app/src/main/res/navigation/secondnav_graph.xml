@@ -15,9 +15,9 @@
 
     <fragment
         android:id="@+id/alarm"
-        android:name="com.habiba.habitopia.alarm"
+        android:name="com.habiba.habitopia.timer"
         android:label="fragment_alarm"
-        tools:layout="@layout/fragment_alarm" />
+        tools:layout="@layout/fragment_timer" />
 
     <fragment
         android:id="@+id/analysis"
@@ -27,7 +27,7 @@
 
     <fragment
         android:id="@+id/profile"
-        android:name="com.habiba.habitopia.profile"
+        android:name="com.habiba.habitopia.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
 

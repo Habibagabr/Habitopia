@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/fragmentQ1">
+    app:startDestination="@id/authFragment">
 
     <!-- Fragment Q1 -->
     <fragment
@@ -128,4 +128,24 @@
         android:name="com.habiba.habitopia.MainActivity2"
         android:label="activity_main2"
         tools:layout="@layout/activity_main2" />
+    <fragment
+        android:id="@+id/authFragment"
+        android:name="com.habiba.habitopia.AuthFragment"
+        android:label="AuthFragment"
+        tools:layout="@layout/fragment_auth" />
+    <fragment
+        android:id="@+id/forgotPasswordFragment"
+        android:name="com.habiba.habitopia.ForgotPasswordFragment"
+        android:label="ForgotPasswordFragment"
+        tools:layout="@layout/fragment_forgot_password"/>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.habiba.habitopia.SignUpFragment"
+        android:label="SignUpFragment"
+        tools:layout="@layout/fragment_signup"/>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.habiba.habitopia.LoginFragment"
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_login"/>
 </navigation>

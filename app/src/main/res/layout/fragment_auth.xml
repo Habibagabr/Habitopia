@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/header"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="@color/beige"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Habitopia"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        android:textColor="@color/blue"
+        android:fontFamily="sans-serif-medium"
+        android:layout_marginTop="32dp" />
+
+    <TextView
+        android:id="@+id/tvSubtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="For more Organized , successful and\nproductive Life"
+        android:textAlignment="center"
+        android:textColor="@color/blue"
+        android:paddingTop="8dp"
+
+        android:textSize="14sp"
+        android:fontFamily="sans-serif-medium"
+        />
+
+    <LinearLayout
+        android:id="@+id/authToggleContainer"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/toggle_bg"
+        android:padding="4dp"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/tvLogin"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Log in"
+            android:background="@drawable/toggle_left_selected"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvAuthToggle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Sign Up"
+            android:background="@drawable/toggle_right_unselected"
+            android:textColor="@color/blue"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+
+
+    <FrameLayout
+        android:id="@+id/auth_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="24dp"/>
+</LinearLayout>

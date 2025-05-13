@@ -28,4 +28,12 @@ class MainActivity : AppCompatActivity() {
             insets
         }
     }
+
+    // Function to navigate to ForgotPasswordFragment
+    fun navigateToForgotPassword() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.main, ForgotPasswordFragment())
+            .addToBackStack(null) // Add to back stack so user can navigate back
+        .commit()
+        }
 }
