@@ -9,7 +9,7 @@
     <string name="done"><u>Done</u></string>
     <string name="doneTask"><u>Done</u></string>
     <string name="title_activity_splash_screen">SplashScreen</string>
-    <string name="intro_text">Here are some Questions to create your habits</string>
+    <string name="intro_text"></string>
     <string name="q1_label">Q1</string>
     <string name="q1_text">Do you like reading?</string>
     <string name="yes">Yes</string>

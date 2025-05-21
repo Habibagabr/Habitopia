@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
@@ -54,6 +55,10 @@ class Gender : Fragment() {
                 Toast.makeText(requireContext(), "Please choose your gender first", Toast.LENGTH_SHORT).show()
 
             }
+
+        }
+        viewBinding.backButton.setOnClickListener{
+            findNavController().navigate(R.id.action_gender_to_fragmentQ5)
         }
     }
 
@@ -80,6 +85,8 @@ class Gender : Fragment() {
 
         viewBinding.nextButton.setImageResource(R.drawable.next_arrow)
         viewBinding.nextButton.elevation=24f
+
+
     }
 
     override fun onDestroyView() {

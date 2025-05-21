@@ -7,84 +7,105 @@
     android:layout_height="match_parent"
     android:background="#F2EADF">
 
-    <!-- Intro Text (Outside the Green Rectangle, Top-Left) -->
+    <ImageView
+        android:id="@+id/backButton"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="24dp"
+        android:src="@drawable/back_arrow">
+    </ImageView>
+
+    <!-- Skip Button (Top Right) -->
+    <TextView
+        android:id="@+id/skipButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:padding="5dp"
+        android:text="@string/skip"
+        android:textColor="@color/green"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <!-- Intro Text -->
     <TextView
         android:id="@+id/introText"
         android:layout_width="match_parent"
         android:layout_height="128dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="26dp"
-        android:text="@string/intro_text"
-        android:textColor="#27767B"
-        android:textAlignment="center"
+        android:layout_below="@id/skipButton"
+        android:layout_marginTop="50dp"
         android:padding="5dp"
+        android:text="@string/intro_text"
+        android:textAlignment="center"
+        android:textColor="#27767B"
         android:textSize="25sp" />
 
-    <!-- Progress Bar (Two Rectangles Below Intro Text) -->
+    <!-- Progress Background -->
     <View
         android:id="@+id/progressBackground"
         android:layout_width="match_parent"
         android:layout_height="20dp"
         android:layout_below="@id/introText"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
         android:layout_marginTop="-30dp"
+        android:layout_marginEnd="20dp"
         android:background="@drawable/progress_background"
-        android:contentDescription="@string/progress_background_description"/>
+        android:backgroundTint="#BDBF67" />
 
-    <!-- Inner RelativeLayout for progressForeground and the number "5" -->
+    <!-- Progress Foreground + Number -->
     <RelativeLayout
         android:id="@+id/progressContainer"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
-        android:layout_alignStart="@id/progressBackground"
         android:layout_alignTop="@id/progressBackground"
+        android:layout_alignStart="@id/progressBackground"
         android:layout_alignBottom="@id/progressBackground"
-        android:contentDescription="@string/progress_container_description">
+        android:layout_marginStart="251dp">
 
         <View
             android:id="@+id/progressForeground"
-            android:layout_width="match_parent"
+            android:layout_width="120dp"
             android:layout_height="20dp"
-            android:background="@drawable/progress_foreground"
-            android:contentDescription="@string/progress_foreground_description"
-            tools:ignore="UnusedAttribute"/>
+            android:background="@drawable/progress_foreground" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@id/progressForeground"
             android:layout_alignTop="@id/progressForeground"
-            android:layout_marginEnd="4dp"
+            android:layout_alignEnd="@id/progressForeground"
             android:layout_marginTop="-4dp"
-            android:gravity="center"
-            android:text="@string/progress_number_5"
-            android:textColor="#27767B"
-            android:textSize="20sp"
-            android:contentDescription="@string/progress_number_5_description"/>
+            android:layout_alignParentStart="true"
+            android:text="4"
+            android:gravity="center_horizontal"
+            android:textStyle="bold"
+            android:textColor="#BDBF67"
+            android:textSize="20sp" />
     </RelativeLayout>
 
-    <!-- Main Content (Question and Answers in a Green Rectangle) -->
-    <LinearLayout
+    <!-- CardView containing the main content -->
+    <androidx.cardview.widget.CardView
         android:id="@+id/greenRectangle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
+        android:layout_below="@id/progressBackground"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:background="@android:color/transparent"
-        android:orientation="vertical"
-        android:padding="20dp"
-        android:contentDescription="@string/green_rectangle_description">
+        android:layout_marginTop="50dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="8dp"
+        app:cardBackgroundColor="#BDBF67"
+        app:cardUseCompatPadding="true">
 
-        <!-- Green Rectangle Background for Question and Answers -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:backgroundTint="@color/green"
-            android:background="@drawable/rounded_button"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="20dp">
 
@@ -93,7 +114,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:layout_marginTop="2dp"
-                android:text="@string/q5_label"
+                android:text="Q4"
                 android:textColor="#F2EADF"
                 android:textSize="24sp"
                 android:contentDescription="@string/q5_label_description" />
@@ -106,95 +127,100 @@
                 android:text="@string/q5_text"
                 android:textColor="#F2EADF"
                 android:textSize="25sp"
-                android:contentDescription="@string/q5_text_description"/>
+                android:contentDescription="@string/q5_text_description" />
 
-            <!-- Answer Buttons for Q5 -->
-            <Button
-                android:id="@+id/optionWalk"
+            <!-- First Row of Buttons -->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/rounded_rectangle_background"
-                app:backgroundTint="@color/beige"
-                style="@style/Widget.AppCompat.Button"
-                android:text="@string/option_walk"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="#98A665"
-                android:contentDescription="@string/option_walk_description" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:weightSum="2">
 
-            <Button
-                android:id="@+id/optionGym"
+                <Button
+                    android:id="@+id/optionWalk"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/rounded_rectangle_background"
+                    app:backgroundTint="@color/beige"
+                    android:text="@string/option_walk"
+                    android:textSize="14sp"
+                    android:textColor="#BDBF67"
+                    android:textStyle="bold"
+                    android:contentDescription="@string/option_walk_description" />
+
+                <Button
+                    android:id="@+id/optionGym"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/rounded_rectangle_background"
+                    app:backgroundTint="#F2EADF"
+                    android:text="@string/option_gym"
+                    android:textSize="14sp"
+                    android:textColor="#BDBF67"
+                    android:textStyle="bold"
+                    android:contentDescription="@string/option_gym_description" />
+            </LinearLayout>
+
+            <!-- Second Row of Buttons -->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/rounded_rectangle_background"
-                android:textStyle="bold"
-                app:backgroundTint="#F2EADF"
-                style="@style/Widget.AppCompat.Button"
-                android:text="@string/option_gym"
-                android:textSize="18sp"
-                android:textColor="#98A665"
-                android:contentDescription="@string/option_gym_description" />
+                android:gravity="center"
+                android:weightSum="2">
 
-            <Button
-                android:id="@+id/optionYoga"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/rounded_rectangle_background"
-                android:textStyle="bold"                app:backgroundTint="#F2EADF"
-                style="@style/Widget.AppCompat.Button"
-                android:text="@string/option_yoga"
-                android:textSize="18sp"
-                android:textColor="#98A665"
-                android:contentDescription="@string/option_yoga_description" />
+                <Button
+                    android:id="@+id/optionYoga"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/rounded_rectangle_background"
+                    app:backgroundTint="#F2EADF"
+                    android:text="@string/option_yoga"
+                    android:textSize="14sp"
+                    android:textColor="#BDBF67"
+                    android:textStyle="bold"
+                    android:contentDescription="@string/option_yoga_description" />
 
-            <Button
-                android:id="@+id/optionNoGoal"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/rounded_rectangle_background"
-                android:textStyle="bold"                app:backgroundTint="#F2EADF"
-                style="@style/Widget.AppCompat.Button"
-                android:text="@string/option_no_goal"
-                android:textSize="18sp"
-                android:textColor="#98A665"
-                android:contentDescription="@string/option_no_goal_description" />
+                <Button
+                    android:id="@+id/optionNoGoal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/rounded_rectangle_background"
+                    app:backgroundTint="#F2EADF"
+                    android:text="@string/option_no_goal"
+                    android:textSize="14sp"
+                    android:textColor="#BDBF67"
+                    android:textStyle="bold"
+                    android:contentDescription="@string/option_no_goal_description" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
 
-    <!-- Continue Button (Outside the Green Rectangle) -->
-    <Button
-        android:id="@+id/continue_button"
-        android:layout_width="200dp"
-        android:layout_height="60dp"
-        android:layout_below="@id/greenRectangle"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/rectangle_button_background"
-        app:backgroundTint="@null"
-        style="@style/Widget.AppCompat.Button"
-        android:text="@string/continue_text"
-        android:textSize="20sp"
-        android:textColor="#F2EADF"
-        android:contentDescription="@string/continue_button_description" />
+    </androidx.cardview.widget.CardView>
 
-    <!-- Skip Text at the Bottom Right -->
-    <TextView
-        android:id="@+id/skip_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+    <!-- Continue Button -->
+    <ImageButton
+        android:id="@+id/continueButton"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
-        android:text="@string/skip"
-        android:padding="16dp"
-        android:textColor="#27767B"
-        android:textSize="30sp"
-        android:clickable="true"
-        android:focusable="true"
-        android:contentDescription="@string/skip_description" />
+        android:layout_marginBottom="76dp"
+        android:src="@drawable/next_arrow"
+        android:background="@null"
+        android:contentDescription="@string/continue_text"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:padding="0dp" />
 </RelativeLayout>

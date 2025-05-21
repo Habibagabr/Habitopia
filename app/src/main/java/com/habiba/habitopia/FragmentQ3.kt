@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -27,8 +29,10 @@ class FragmentQ3 : Fragment() {
 
         // العناصر الموجودة في الـ XML
         val sleepTimeInput: EditText = view.findViewById(R.id.sleepTimeInput)
-        val continueButton: Button = view.findViewById(R.id.continue_button)
-        val skipButton: TextView = view.findViewById(R.id.skip_button)
+        val continueButton: ImageButton = view.findViewById(R.id.continueButton)
+        val skipButton: TextView = view.findViewById(R.id.skipButton)
+        val preButton: ImageView =view.findViewById(R.id.backButton)
+
 
         // لما المستخدم يضغط على Continue
         continueButton.setOnClickListener {
@@ -54,7 +58,11 @@ class FragmentQ3 : Fragment() {
 
         // لما المستخدم يضغط على Skip
         skipButton.setOnClickListener {
-            findNavController().navigate(R.id.action_fragmentQ3_to_fragmentQ4)
+            findNavController().navigate(R.id.action_fragmentQ3_to_character)
+        }
+
+        preButton.setOnClickListener{
+            findNavController().navigate(R.id.action_fragmentQ3_to_fragmentQ2)
         }
 
     }

@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="#F5F0E6">
 
-    <!-- Motivational Text -->
+
     <TextView
         android:id="@+id/tvQuote"
         android:layout_width="wrap_content"
@@ -16,20 +16,23 @@
         android:layout_marginTop="40dp"
         android:fontFamily="sans-serif-medium" />
 
-    <!-- Clouds -->
+
     <ImageView
         android:id="@+id/cloud2"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:layout_marginTop="150dp"
-        android:src="@drawable/cloud" />
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="-60dp"
+        android:layout_marginTop="400dp"
+        android:src="@drawable/cloud"
+        android:translationZ="40dp" />
 
     <ImageView
         android:id="@+id/cloud1"
         android:layout_width="380dp"
         android:layout_height="300dp"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="155dp"
+        android:layout_marginStart="-12dp"
         android:layout_marginTop="100dp"
         android:src="@drawable/cloud" />
 
@@ -39,8 +42,9 @@
         android:layout_height="500dp"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="100dp"
-        android:layout_marginEnd="-23dp"
-        android:src="@drawable/cloud" />
+        android:layout_marginEnd="23dp"
+        android:src="@drawable/cloud"
+        android:translationZ="40dp" />
 
     <!-- Timer Circle Progress -->
     <ProgressBar
@@ -59,13 +63,12 @@
         android:id="@+id/tvTimer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="22:30"
+        android:text="00:00"
         android:textSize="40sp"
         android:textColor="#D09A6A"
         android:layout_centerInParent="true"
         android:fontFamily="sans-serif-medium"/>
 
-    <!-- Control Buttons (Play/Pause, Reload, Set Time) -->
     <LinearLayout
         android:id="@+id/controlsLayout"
         android:layout_width="wrap_content"
@@ -79,31 +82,31 @@
         <!-- Play/Pause Button -->
         <ImageButton
             android:id="@+id/btnPlayPause"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:background="@drawable/bg_round_white"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:src="@drawable/play"
+            android:background="@android:color/transparent"
             android:padding="16dp" />
 
         <!-- Reload Button -->
         <ImageButton
             android:id="@+id/btnReload"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:background="@drawable/bg_round_white"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@android:color/transparent"
             android:src="@drawable/reload"
             android:padding="16dp"
-            android:layout_marginStart="20dp" />
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp" />
 
         <!-- Set Time Button -->
         <ImageButton
             android:id="@+id/btnSetTime"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:background="@drawable/bg_round_white"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@android:color/transparent"
             android:src="@drawable/sett"
-            android:padding="16dp"
-            android:layout_marginStart="20dp" />
+            android:padding="16dp" />
     </LinearLayout>
 
 </RelativeLayout>

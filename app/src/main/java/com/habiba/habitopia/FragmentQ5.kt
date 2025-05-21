@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -32,8 +34,9 @@ class FragmentQ5 : Fragment() {
         val optionGym: Button = view.findViewById(R.id.optionGym)
         val optionYoga: Button = view.findViewById(R.id.optionYoga)
         val optionNoGoal: Button = view.findViewById(R.id.optionNoGoal)
-        val continueButton: Button = view.findViewById(R.id.continue_button)
-        val skipButton: TextView = view.findViewById(R.id.skip_button)
+        val continueButton: ImageButton = view.findViewById(R.id.continueButton)
+        val skipButton: TextView = view.findViewById(R.id.skipButton)
+        val backButton:ImageView=view.findViewById(R.id.backButton)
 
         // تعريف الألوان كـ ColorStateList
         val defaultColor =
@@ -108,8 +111,11 @@ class FragmentQ5 : Fragment() {
 
         // لما المستخدم يضغط على Skip
         skipButton.setOnClickListener{
-            findNavController().navigate(R.id.action_gender_to_character)
+            findNavController().navigate(R.id.action_fragmentQ5_to_gender)
 
+        }
+        backButton.setOnClickListener{
+            findNavController().navigate(R.id.action_fragmentQ5_to_fragmentQ4)
         }
 
     }

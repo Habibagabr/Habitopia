@@ -7,8 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.findViewTreeViewModelStoreOwner
 import androidx.navigation.fragment.findNavController
 
 class FragmentQ4 : Fragment() {
@@ -26,9 +29,10 @@ class FragmentQ4 : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // العناصر الموجودة في الـ XML
-        val waterCupsInput: EditText = view.findViewById(R.id.waterCupsInput)
-        val continueButton: Button = view.findViewById(R.id.continue_button)
-        val skipButton: TextView = view.findViewById(R.id.skip_button)
+        val waterCupsInput: EditText = view.findViewById(R.id.waterCupInput)
+        val continueButton: ImageButton = view.findViewById(R.id.continueButton)
+        val skipButton: TextView = view.findViewById(R.id.skipButton)
+        val preButton:ImageView=view.findViewById(R.id.backButton)
 
         // لما المستخدم يضغط على Continue
         continueButton.setOnClickListener {
@@ -55,6 +59,9 @@ class FragmentQ4 : Fragment() {
         // لما المستخدم يضغط على Skip
         skipButton.setOnClickListener {
             findNavController().navigate(R.id.action_fragmentQ4_to_fragmentQ5)
+        }
+        preButton.setOnClickListener{
+            findNavController().navigate(R.id.action_fragmentQ4_to_fragment3)
         }
     }
 

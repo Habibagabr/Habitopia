@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import com.github.mikephil.charting.charts.BarChart
@@ -25,8 +26,10 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.habiba.habitopia.DataBase.AppDatabase
 import com.habiba.habitopia.DataBase.TaskEntity
 import com.habiba.habitopia.Repository.TaskRepo
+import com.habiba.habitopia.ViewModel.HomeViewModel
 import com.habiba.habitopia.ViewModel.TaskViewModel
 import com.habiba.habitopia.ViewModel.TaskViewModelFactory
+import com.habiba.habitopia.utils.renderSvgToBitmapWithDynamicWebView
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -52,9 +55,25 @@ class analysis : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+         val homeViewModel: HomeViewModel
+
+        homeViewModel=HomeViewModel()
+        val avaterImageView:ImageView=view.findViewById(R.id.avaterImage)
+
         val sharedPref = requireContext().getSharedPreferences("MasterPreference", Context.MODE_PRIVATE)
         userId = sharedPref.getString("userId", "") ?: ""
 
+        // Character Avatar Rendering
+        val sharedPrefImage = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        sharedPrefImage.getString("character", null)?.let { characterImage ->
+            val updatedCharacterImage = homeViewModel.setAvater(characterImage, "Happy", "Default")
+            renderSvgToBitmapWithDynamicWebView(
+                context = avaterImageView.context,
+                svgUrl = updatedCharacterImage,
+                width = 800,
+                height = 800
+            ) { bitmap ->avaterImageView.setImageBitmap(bitmap) }
+        }
 
         val today = LocalDate.now().toString() //  "2025-05-10"
         val todayVal = LocalDate.now()
@@ -148,6 +167,7 @@ class analysis : Fragment() {
         val topDayIndex = tasksPerDay.indexOf(tasksPerDay.maxOrNull())
         view.findViewById<TextView>(R.id.topDayTextView).text =
             "Weekly Tasks Peak: ${days[topDayIndex]}"
+
     }
 
 

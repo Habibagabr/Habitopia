@@ -15,7 +15,7 @@
 
     <fragment
         android:id="@+id/alarm"
-        android:name="com.habiba.habitopia.timer"
+        android:name="com.habiba.habitopia.TimerFragment"
         android:label="fragment_alarm"
         tools:layout="@layout/fragment_timer" />
 

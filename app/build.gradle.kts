@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.androidx.navigation.safeargs.kotlin)
 }
 
+
 android {
     namespace = "com.habiba.habitopia"
     compileSdk = 35
@@ -85,10 +86,9 @@ dependencies {
     // charts
     implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
-    //firebase w elhagat deeh
-    implementation(platform("com.google.firebase:firebase-bom:33.13.0"))
-    implementation ("com.google.firebase:firebase-auth-ktx:22.0.0")
-    implementation("com.google.firebase:firebase-analytics-ktx")
+
+
+
 
 
 }

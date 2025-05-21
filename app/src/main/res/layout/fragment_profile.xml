@@ -5,29 +5,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/beige">
+    android:background="@color/darkBeige">
 
+    <!-- Background Circles -->
     <ImageView
         android:id="@+id/ellipse_12"
         android:layout_width="250dp"
         android:layout_height="200dp"
         android:src="@drawable/ellipse_12"
         android:scaleType="fitCenter"
-        android:elevation="4dp"
         android:contentDescription="@string/ellipse_12_description"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="-15dp"
         android:layout_marginTop="-50dp" />
 
-    <!-- الشكل البيضاوي الثاني -->
     <ImageView
         android:id="@+id/ellipse_17"
         android:layout_width="200dp"
         android:layout_height="250dp"
         android:src="@drawable/ellipse_17"
         android:scaleType="fitCenter"
-        android:elevation="8dp"
         android:contentDescription="@string/ellipse_17_description"
         app:layout_constraintTop_toTopOf="@id/ellipse_12"
         app:layout_constraintEnd_toEndOf="@id/ellipse_12"
@@ -36,189 +34,158 @@
         android:layout_marginEnd="-100dp"
         android:layout_marginTop="20dp" />
 
-    <!-- نص My Profile -->
+    <!-- Header Text -->
     <TextView
         android:id="@+id/myProfileText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/my_profile"
+        android:text="My Profile"
         android:textColor="#27667B"
         android:textSize="30sp"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@id/avatarImage"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <!-- صورة الأفاتار -->
-
-    <!-- زرار تعديل الصورة -->
-    <ImageView
-        android:id="@+id/avatarImage"
-        android:layout_width="180dp"
-        android:layout_height="180dp"
-        android:layout_marginTop="92dp"
-        android:background="@drawable/circle_background"
-        android:contentDescription="@string/avatar_description"
-        android:paddingStart="5dp"
-        android:paddingTop="40dp"
-        android:paddingEnd="5dp"
-        android:paddingBottom="0dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/female"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.562"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="30dp" />
+
+    <!-- Profile Card -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/profileCard"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="250dp"
+        app:cardElevation="8dp"
+        app:cardBackgroundColor="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@drawable/hard_card_top_rounded"
+            android:padding="20dp">
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="70dp"
+                    android:padding="20dp">
+
+                    <!-- Name -->
+                    <TextView
+                        android:id="@+id/nameLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Name"
+                        android:textColor="#A1AF73"
+                        android:textSize="16sp"
+                        android:layout_marginBottom="6dp" />
+
+                    <EditText
+                        android:id="@+id/nameEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:text="Habiba Gabr"
+                        android:enabled="false"
+                        android:background="@drawable/rounded_edittext_background"
+                        android:padding="12dp"
+                        android:textColor="@color/beige"
+                        android:textSize="16sp" />
+
+                    <!-- Email -->
+                    <TextView
+                        android:id="@+id/emailLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="6dp"
+                        android:text="Email"
+                        android:textColor="#A1AF73"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/emailEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:text="habibamohamedgabr@gmail.com"
+                        android:background="@drawable/rounded_edittext_background"
+                        android:padding="12dp"
+                        android:textColor="@color/beige"
+                        android:textSize="16sp" />
+
+                    <!-- Reset Password -->
+                    <TextView
+                        android:id="@+id/resetPassword"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Reset Password?"
+                        android:textColor="#27667B"
+                        android:textSize="14sp"
+                        android:layout_marginTop="8dp"
+                        android:layout_gravity="end"
+                        android:clickable="true" />
+
+                    <!-- Save Button -->
+                    <Button
+                        android:id="@+id/saveChangesButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Save Changes"
+                        android:textColor="@android:color/white"
+                        android:backgroundTint="#91B2BD"
+                        android:layout_marginTop="24dp"
+                        android:paddingHorizontal="24dp" />
+
+                    <!-- Log Out Button -->
+                    <Button
+                        android:id="@+id/logOutButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Log Out"
+                        android:textColor="@android:color/white"
+                        android:backgroundTint="#DEBB90"
+                        android:drawableEnd="@drawable/exit_to_app"
+                        android:layout_marginTop="16dp"
+                        android:paddingHorizontal="24dp" />
+
+                </LinearLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Avatar Image (centered and overlapping card) -->
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/avatarImage"
+        android:layout_width="170dp"
+        android:layout_height="170dp"
+        android:layout_marginTop="-90dp"
+        android:padding="5dp"
+        android:scaleType="centerCrop"
+        android:translationZ="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/profileCard"
+        app:shapeAppearanceOverlay="@style/CircleImage"
+        android:background="@color/beige"
+        app:strokeColor="@android:color/white"
+        app:strokeWidth="2dp" />
 
     <ImageView
         android:id="@+id/editAvatarIcon"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
-        android:contentDescription="@string/avatar_description"
-        android:src="@drawable/edit_square"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/circle"
+        android:elevation="8dp"
+        android:padding="8dp"
+        android:src="@drawable/edit"
+        android:translationZ="40dp"
         app:layout_constraintBottom_toBottomOf="@id/avatarImage"
         app:layout_constraintEnd_toEndOf="@id/avatarImage" />
-
-    <!-- Label للاسم -->
-    <TextView
-        android:id="@+id/nameLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="310dp"
-        android:text="@string/name_label"
-        android:textColor="#A1AF73"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- حقل الاسم -->
-    <EditText
-        android:id="@+id/nameEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="70dp"
-        android:layout_marginTop="330dp"
-        android:layout_marginEnd="60dp"
-        android:autofillHints="name"
-        android:background="@drawable/rounded_edittext_background"
-        android:hint="@string/answer_hint"
-        android:inputType="textPersonName"
-        android:maxWidth="300dp"
-        android:minHeight="48dp"
-        android:paddingStart="12dp"
-        android:paddingTop="16dp"
-        android:paddingEnd="48dp"
-        android:paddingBottom="16dp"
-        android:text=""
-        android:enabled="true"
-        android:textColorHint="#FAFEFF"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- Label للإيميل -->
-    <TextView
-        android:id="@+id/emailLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="374dp"
-        android:text="@string/email_label"
-        android:textColor="#A1AF73"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- حقل الإيميل -->
-    <EditText
-        android:id="@+id/emailEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="410dp"
-        android:layout_marginEnd="40dp"
-        android:autofillHints="emailAddress"
-        android:background="@drawable/rounded_edittext_background"
-        android:hint="@string/answer_hint"
-        android:inputType="textEmailAddress"
-        android:maxWidth="300dp"
-        android:minHeight="48dp"
-        android:paddingStart="12dp"
-        android:paddingTop="16dp"
-        android:paddingEnd="48dp"
-        android:paddingBottom="16dp"
-        android:text=""
-        android:enabled="true"
-        android:textColorHint="#FAFEFF"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- نص Reset Password -->
-
-    <!-- زرار Save Changes -->
-
-    <!-- زرار Log Out -->
-<!--    <TextView-->
-<!--        android:id="@+id/resetPasswordText"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="248dp"-->
-<!--        android:layout_marginTop="476dp"-->
-<!--        android:clickable="true"-->
-<!--        android:text="@string/reset_password"-->
-<!--        android:textColor="#27667B"-->
-<!--        android:textSize="19sp"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent">-->
-
-<!--    </TextView>-->
-
-    <Button
-        android:id="@+id/saveChangesButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="540dp"
-        android:layout_marginEnd="80dp"
-        android:backgroundTint="#91B2BD"
-        android:maxWidth="300dp"
-        android:text="@string/save_changes"
-        android:textColor="#FFFFFF"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@id/logOutButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.571" />
-
-    <Button
-        android:id="@+id/logOutButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="596dp"
-        android:layout_marginEnd="40dp"
-        android:backgroundTint="#DEBB90"
-        android:drawableEnd="@drawable/exit_to_app"
-        android:maxWidth="300dp"
-        android:paddingEnd="48dp"
-        android:text="@string/log_out"
-        android:textColor="#000000"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </Button>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
