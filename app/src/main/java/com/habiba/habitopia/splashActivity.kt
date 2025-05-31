@@ -6,6 +6,7 @@ import android.os.Looper
 import android.widget.ImageButton
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
 
 class splashActivity : AppCompatActivity() {
 
@@ -16,9 +17,21 @@ class splashActivity : AppCompatActivity() {
         enableEdgeToEdge()
 
         Handler(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(this, onboardingone::class.java)
-            startActivity(intent)
-            finish()
+            val user = FirebaseAuth.getInstance().currentUser
+
+            if (user != null) {
+                val intent = Intent(this, MainActivity2::class.java)
+                startActivity(intent)
+                finish()
+
+            } else {
+                val intent = Intent(this,onboardingone::class.java)
+                startActivity(intent)
+                finish()
+            }
+
         }, 3500) // 3 and half seconds splash duration
+
+
     }
 }

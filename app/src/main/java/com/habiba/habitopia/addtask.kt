@@ -19,6 +19,8 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.habiba.habitopia.DataBase.AppDatabase
 import com.habiba.habitopia.DataBase.TaskDAO
 import com.habiba.habitopia.DataBase.TaskEntity
@@ -51,13 +53,15 @@ class addtask : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val firestore = FirebaseFirestore.getInstance()
+        userId = FirebaseAuth.getInstance().currentUser?.uid.toString()
+
+
         database = AppDatabase.getDatabase(requireContext())
         dao = database.taskDao()
         repo = TaskRepo(dao)
         viewModel = ViewModelProvider(this, TaskViewModelFactory(repo))[TaskViewModel::class.java]
 
-        val sharedPref = requireContext().getSharedPreferences("MasterPreference", Context.MODE_PRIVATE)
-        userId = sharedPref.getString("userId", null).toString()
 
         binding.startTimeButton.setOnClickListener {
             setTime(binding.startTimeButton)
@@ -166,30 +170,6 @@ class addtask : Fragment() {
                 showSuccessDialog()
 
             }
-//            startTime.isEmpty() || startTime == "00:00" -> {
-//                Toast.makeText(requireContext(), "Please select a Start Time", Toast.LENGTH_SHORT).show()
-//            }
-//            endTime.isEmpty() || endTime == "00:00" -> {
-//                Toast.makeText(requireContext(), "Please select an End Time", Toast.LENGTH_SHORT).show()
-//
-//            }
-
-//            description.isBlank() -> {
-//                Toast.makeText(requireContext(), "Please enter a Task Description", Toast.LENGTH_SHORT).show()
-//
-//            }
-//            startTime.isEmpty() || startTime == "00:00" -> {
-//                Toast.makeText(requireContext(), "Please select a Start Time", Toast.LENGTH_SHORT).show()
-//            }
-//            endTime.isEmpty() || endTime == "00:00" -> {
-//                Toast.makeText(requireContext(), "Please select an End Time", Toast.LENGTH_SHORT).show()
-//
-//            }
-//            category?.isNullOrEmpty() == true ->
-//            {
-//                Toast.makeText(requireContext(), "Please select the Task Category", Toast.LENGTH_SHORT).show()
-//
-//            }
         }
         return taskEntity
     }

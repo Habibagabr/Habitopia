@@ -11,13 +11,9 @@
         android:id="@+id/backButton"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_margin="24dp"
-        android:src="@drawable/back_arrow">
-    </ImageView>
+        android:src="@drawable/back_arrow" />
 
-    <!-- Skip Button (Top Right) -->
     <TextView
         android:id="@+id/skipButton"
         android:layout_width="wrap_content"
@@ -32,72 +28,44 @@
         android:textSize="20sp"
         android:textStyle="bold" />
 
-    <!-- Intro Text -->
+    <!-- Lottie Animation -->
+
+    <!-- Creative Intro Text -->
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieTop"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="159dp"
+        android:layout_marginEnd="100dp"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/exercise" />
+
+    <!-- Main CardView -->
     <TextView
         android:id="@+id/introText"
-        android:layout_width="match_parent"
-        android:layout_height="128dp"
-        android:layout_below="@id/skipButton"
-        android:layout_marginTop="50dp"
-        android:padding="5dp"
-        android:text="@string/intro_text"
-        android:textAlignment="center"
-        android:textColor="#27767B"
-        android:textSize="25sp" />
-
-    <!-- Progress Background -->
-    <View
-        android:id="@+id/progressBackground"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_below="@id/introText"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="-30dp"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/progress_background"
-        android:backgroundTint="#BDBF67" />
-
-    <!-- Progress Foreground + Number -->
-    <RelativeLayout
-        android:id="@+id/progressContainer"
         android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:layout_alignTop="@id/progressBackground"
-        android:layout_alignStart="@id/progressBackground"
-        android:layout_alignBottom="@id/progressBackground"
-        android:layout_marginStart="251dp">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lottieTop"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="-276dp"
+        android:layout_marginEnd="0dp"
+        android:text="🌱 Let’ s kickstart your journey with some starter habits! 🌟 Ready to make progress together?"
+        android:textAlignment="center"
+        android:textColor="#176C7D"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
-        <View
-            android:id="@+id/progressForeground"
-            android:layout_width="120dp"
-            android:layout_height="20dp"
-            android:background="@drawable/progress_foreground" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@id/progressForeground"
-            android:layout_alignEnd="@id/progressForeground"
-            android:layout_marginTop="-4dp"
-            android:layout_alignParentStart="true"
-            android:text="4"
-            android:gravity="center_horizontal"
-            android:textStyle="bold"
-            android:textColor="#BDBF67"
-            android:textSize="20sp" />
-    </RelativeLayout>
-
-    <!-- CardView containing the main content -->
     <androidx.cardview.widget.CardView
         android:id="@+id/greenRectangle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/progressBackground"
+        android:layout_alignParentBottom="true"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginBottom="128dp"
         app:cardCornerRadius="16dp"
         app:cardElevation="8dp"
         app:cardBackgroundColor="#BDBF67"
@@ -205,7 +173,6 @@
                     android:contentDescription="@string/option_no_goal_description" />
             </LinearLayout>
         </LinearLayout>
-
     </androidx.cardview.widget.CardView>
 
     <!-- Continue Button -->
@@ -223,4 +190,5 @@
         android:scaleType="fitCenter"
         android:adjustViewBounds="true"
         android:padding="0dp" />
+
 </RelativeLayout>

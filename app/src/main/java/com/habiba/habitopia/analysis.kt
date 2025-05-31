@@ -23,6 +23,7 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.google.firebase.auth.FirebaseAuth
 import com.habiba.habitopia.DataBase.AppDatabase
 import com.habiba.habitopia.DataBase.TaskEntity
 import com.habiba.habitopia.Repository.TaskRepo
@@ -60,9 +61,7 @@ class analysis : Fragment() {
         homeViewModel=HomeViewModel()
         val avaterImageView:ImageView=view.findViewById(R.id.avaterImage)
 
-        val sharedPref = requireContext().getSharedPreferences("MasterPreference", Context.MODE_PRIVATE)
-        userId = sharedPref.getString("userId", "") ?: ""
-
+        userId = FirebaseAuth.getInstance().currentUser?.uid.toString()
         // Character Avatar Rendering
         val sharedPrefImage = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
         sharedPrefImage.getString("character", null)?.let { characterImage ->
@@ -163,10 +162,6 @@ class analysis : Fragment() {
             animateY(1000)
             invalidate()
         }
-
-        val topDayIndex = tasksPerDay.indexOf(tasksPerDay.maxOrNull())
-        view.findViewById<TextView>(R.id.topDayTextView).text =
-            "Weekly Tasks Peak: ${days[topDayIndex]}"
 
     }
 

@@ -22,4 +22,7 @@ interface TaskDAO {
     @Query("UPDATE task_table SET taskDone = :done WHERE taskId = :taskId")
     suspend fun setTaskDone(taskId: Int, done: Int)
 
+    @Query("SELECT DISTINCT username FROM TASK_TABLE WHERE userId = :userId LIMIT 1")
+    suspend fun getUserNameForUser(userId: String): String?
+
 }

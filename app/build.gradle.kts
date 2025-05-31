@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     id("kotlin-kapt")
     alias(libs.plugins.androidx.navigation.safeargs.kotlin)
+    id("com.google.gms.google-services")
 }
 
 
@@ -85,6 +86,13 @@ dependencies {
 
     // charts
     implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
+    //fire base
+    implementation(platform("com.google.firebase:firebase-bom:32.7.1"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-auth-ktx")
+    implementation ("com.google.firebase:firebase-firestore-ktx")
+
 
 
 

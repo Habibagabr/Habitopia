@@ -27,5 +27,9 @@ class TaskRepo(private val taskDao: TaskDAO) {
         taskDao.setTaskDone(taskId, done)
     }
 
+    suspend fun getUserNameForUser(userId: String): String? {
+        return taskDao.getUserNameForUser(userId)
+    }
+
 
 }

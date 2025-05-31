@@ -14,7 +14,8 @@ data class TaskEntity(
     var taskEndDuration:String,
     var taskDate:String,
     var taskCategory:String?,
-    var taskDone:Int=0
+    var taskDone:Int=0,
+    var username:String?="NULL"
 
 )
 

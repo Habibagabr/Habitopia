@@ -17,6 +17,8 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.habiba.habitopia.Adapters.*
 import com.habiba.habitopia.DataBase.*
 import com.habiba.habitopia.Repository.*
@@ -41,6 +43,8 @@ class home : Fragment() {
     private lateinit var habitsRecyclerView: RecyclerView
     private var allTasks: List<TaskEntity> = emptyList()
 
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -52,7 +56,10 @@ class home : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        userId = setUserId()
+        val firestore = FirebaseFirestore.getInstance()
+        userId = FirebaseAuth.getInstance().currentUser?.uid.toString()
+
+
         homeViewModel = HomeViewModel()
         database = AppDatabase.getDatabase(requireContext())
 
@@ -63,7 +70,7 @@ class home : Fragment() {
         val habitsRepo = HabitsRepo(database.habitsDao())
         habitsViewModel = ViewModelProvider(this, HabitViewModelFactory(habitsRepo))[HabitViewModel::class.java]
 
-        // ✅ Insert habits from SharedPreferences to Room
+        //  Insert habits from SharedPreferences to Room
         insertHabitsFromPreferences(requireContext(), userId) { habit ->
             habitsViewModel.insertHabit(habit)
         }
@@ -79,6 +86,30 @@ class home : Fragment() {
                 height = 700
             ) { bitmap -> binding.avatarImage.setImageBitmap(bitmap) }
         }
+        //top text
+
+
+        if (userId != null) {
+            firestore.collection("UserData")
+                .document(userId)
+                .get()
+                .addOnSuccessListener { document ->
+                    if (document != null && document.exists()) {
+                        val username = document.getString("UserName")
+                        val characterURL = document.getString("characterURL")
+
+                        // هنا استخدمهم في الـ UI
+                        binding.greetingText.text = "Good Morning, $username!"
+                    } else {
+                        binding.subtext.text = "Welcome!"
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Toast.makeText(requireContext(), "Failed to load user data", Toast.LENGTH_SHORT).show()
+                }
+        }
+
+
 
         // Greeting text
         val namePref = requireContext().getSharedPreferences("name Preference", Context.MODE_PRIVATE)
@@ -91,7 +122,9 @@ class home : Fragment() {
         val adapter = TaskAdapter(
             onTaskClick = {
                 taskViewModel.toggleTaskDone(it.taskId, it.taskDone)
-                taskViewModel.getTasksForUser(userId)
+                if (userId != null) {
+                    taskViewModel.getTasksForUser(userId)
+                }
             },
             onTaskDelete = { task ->
                 AlertDialog.Builder(requireContext())
@@ -100,7 +133,9 @@ class home : Fragment() {
                     .setPositiveButton("Yes") { _, _ ->
                         taskViewModel.deleteTask(task.taskId)
                         Toast.makeText(requireContext(), "Task deleted", Toast.LENGTH_SHORT).show()
-                        taskViewModel.getTasksForUser(userId)
+                        if (userId != null) {
+                            taskViewModel.getTasksForUser(userId)
+                        }
                     }
                     .setNegativeButton("Cancel", null)
                     .show()
@@ -109,7 +144,9 @@ class home : Fragment() {
         recyclerView.adapter = adapter
 
         // Load tasks
-        taskViewModel.getTasksForUser(userId)
+        if (userId != null) {
+            taskViewModel.getTasksForUser(userId)
+        }
         taskViewModel.tasksLiveData.observe(viewLifecycleOwner) { tasksList ->
             allTasks = tasksList
             val taskItems = mapTasksToTaskItems(tasksList)
@@ -151,7 +188,9 @@ class home : Fragment() {
         habitsRecyclerView.adapter = habitsAdapter
         habitsRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
-        habitsViewModel.getHabitsForUser(userId)
+        if (userId != null) {
+            habitsViewModel.getHabitsForUser(userId)
+        }
         habitsViewModel.habitsLiveData.observe(viewLifecycleOwner) {
             habitsAdapter.updateData(it)
         }
@@ -180,13 +219,17 @@ class home : Fragment() {
                 .setCustomTitle(titleView)
                 .setView(dialogView)
                 .setPositiveButton("Add") { _, _ ->
-                    val newHabit = HabitsEntity(
-                        userId = userId,
-                        habitsTitle = taskNameInput.text.toString(),
-                        habitsEmoji = emojiInput.text.toString(),
-                        habitsTime = String.format("%02d:%02d", selectedHour, selectedMinute)
-                    )
-                    habitsViewModel.insertHabit(newHabit)
+                    val newHabit = userId?.let { it1 ->
+                        HabitsEntity(
+                            userId = it1,
+                            habitsTitle = taskNameInput.text.toString(),
+                            habitsEmoji = emojiInput.text.toString(),
+                            habitsTime = String.format("%02d:%02d", selectedHour, selectedMinute)
+                        )
+                    }
+                    if (newHabit != null) {
+                        habitsViewModel.insertHabit(newHabit)
+                    }
                     Toast.makeText(requireContext(), "The new Habit Added!", Toast.LENGTH_SHORT).show()
                 }
                 .setNegativeButton("Cancel", null)
@@ -201,15 +244,6 @@ class home : Fragment() {
         }
     }
 
-    private fun setUserId(): String {
-        val sharedPref = context?.getSharedPreferences("MasterPreference", Context.MODE_PRIVATE)
-        var userId = sharedPref?.getString("userId", null)
-        if (userId == null) {
-            userId = UUID.randomUUID().toString()
-            sharedPref?.edit()?.putString("userId", userId)?.apply()
-        }
-        return userId
-    }
 
     private fun mapTasksToTaskItems(tasks: List<TaskEntity>): List<TaskItem> {
         val groupedTasks = tasks.groupBy { it.taskDate }

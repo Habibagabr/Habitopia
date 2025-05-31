@@ -11,7 +11,7 @@ class onboardingone : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_onboardingone)
-        val nextButton:ImageButton=findViewById(R.id.nextButton)
+        val nextButton:ImageButton=findViewById(R.id.nextbtn)
         nextButton.setOnClickListener{
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)

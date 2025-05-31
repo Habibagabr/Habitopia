@@ -11,13 +11,9 @@
         android:id="@+id/backButton"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_margin="24dp"
-        android:src="@drawable/back_arrow">
-    </ImageView>
+        android:src="@drawable/back_arrow" />
 
-    <!-- Skip Button (Top Right) -->
     <TextView
         android:id="@+id/skipButton"
         android:layout_width="wrap_content"
@@ -27,80 +23,54 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
         android:padding="5dp"
-        android:text="@string/skip"
+        android:text="Skip"
         android:textColor="@color/green"
-        android:textSize="20sp"
+        android:textSize="20dp"
         android:textStyle="bold" />
 
-    <!-- Intro Text -->
+    <!-- Lottie Animation -->
+
+    <!-- Creative Intro Text -->
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieTop"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="153dp"
+        android:layout_marginEnd="124dp"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="false"
+        app:lottie_rawRes="@raw/sleep" />
+
     <TextView
         android:id="@+id/introText"
-        android:layout_width="match_parent"
-        android:layout_height="128dp"
-        android:layout_below="@id/skipButton"
-        android:layout_marginTop="50dp"
-        android:padding="5dp"
-        android:text="@string/intro_text"
-        android:textAlignment="center"
-        android:textColor="#27767B"
-        android:textSize="25sp" />
-
-    <!-- Progress Background -->
-    <View
-        android:id="@+id/progressBackground"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_below="@id/introText"
-        android:layout_marginTop="-30dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:backgroundTint="#EBA988"
-        android:background="@drawable/progress_background" />
-
-    <!-- Progress Foreground + Number -->
-    <!-- Progress Foreground + Number -->
-    <RelativeLayout
-        android:id="@+id/progressContainer"
         android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:layout_marginStart="70dp"
-        android:layout_alignStart="@id/progressBackground"
-        android:layout_alignTop="@id/progressBackground"
-        android:layout_alignBottom="@id/progressBackground">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lottieTop"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-241dp"
+        android:text="🌱 Let’s kickstart your journey with some starter habits! 🌟 Ready to make progress together?"
+        android:textAlignment="center"
+        android:textColor="#176C7D"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
-        <View
-            android:id="@+id/progressForeground"
-            android:layout_width="120dp"
-            android:layout_height="20dp"
-            android:background="@drawable/progress_foreground"
-            tools:ignore="UnusedAttribute" />
+    <!-- Main Card Section -->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@id/progressForeground"
-            android:layout_alignEnd="@id/progressForeground"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="-4dp"
-            android:text="2"
-            android:gravity="center_horizontal"
-            android:textStyle="bold"
-            android:textColor="#EBA988"
-            android:textSize="20sp" />
-    </RelativeLayout>
+    <!-- Continue Button -->
 
-    <!-- Main Content Card -->
     <androidx.cardview.widget.CardView
         android:id="@+id/mainCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/progressBackground"
-        android:layout_marginTop="40dp"
+        android:layout_alignParentBottom="true"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
+        android:layout_marginBottom="202dp"
+        app:cardBackgroundColor="#EBA988"
         app:cardCornerRadius="16dp"
         app:cardElevation="8dp"
-        app:cardBackgroundColor="#EBA988"
         app:cardUseCompatPadding="true">
 
         <LinearLayout
@@ -113,11 +83,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:layout_marginTop="2dp"
                 android:text="Q2"
                 android:textColor="#F2EADF"
-                android:textSize="24sp"
-                android:contentDescription="@string/q3_label_description" />
+                android:textSize="24sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -125,30 +93,28 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
                 android:text="@string/q3_text"
+                android:textAlignment="center"
                 android:textColor="#F2EADF"
-                android:textSize="25sp"
-                android:contentDescription="@string/q3_text_description" />
+                android:textSize="25sp" />
 
             <EditText
                 android:id="@+id/sleepTimeInput"
                 android:layout_width="100dp"
                 android:layout_height="50dp"
-                android:layout_marginTop="50dp"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginTop="50dp"
                 android:background="@drawable/rounded_rectangle_background"
-                android:padding="10dp"
                 android:hint="Answer"
-                android:textColorHint="#A1A486"
-                android:textSize="16dp"
-                android:maxLines="1"
                 android:inputType="number"
+                android:maxLines="1"
+                android:padding="10dp"
                 android:textAlignment="center"
-                android:textColor="#C8A390"/>
-
+                android:textColor="#C8A390"
+                android:textColorHint="#A1A486"
+                android:textSize="16dp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <!-- Continue Button -->
     <ImageButton
         android:id="@+id/continueButton"
         android:layout_width="20dp"
@@ -159,7 +125,7 @@
         android:layout_marginBottom="76dp"
         android:src="@drawable/next_arrow"
         android:background="@null"
-        android:contentDescription="@string/continue_text"
+        android:contentDescription="Continue"
         android:scaleType="fitCenter"
         android:adjustViewBounds="true"
         android:padding="0dp" />

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/fragmentQ2">
+    app:startDestination="@id/authFragment">
 
     <!-- Fragment Q1 -->
 
@@ -135,7 +135,50 @@
         android:name="com.habiba.habitopia.MainActivity2"
         android:label="activity_main2"
         tools:layout="@layout/activity_main2" />
-<!--    <fragment-->
+    <fragment
+        android:id="@+id/authFragment"
+        android:name="com.habiba.habitopia.AuthFragment"
+        android:label="AuthFragment" >
+        <action
+            android:id="@+id/action_authFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_authFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+        <action
+            android:id="@+id/action_authFragment_to_mainActivity2"
+            app:destination="@id/mainActivity2" />
+        <action
+            android:id="@+id/action_authFragment_to_fragmentQ2"
+            app:destination="@id/fragmentQ2" />
+        <action
+            android:id="@+id/action_authFragment_to_forgotPasswordFragment"
+            app:destination="@id/forgotPasswordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.habiba.habitopia.LoginFragment"
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_forgotPasswordFragment"
+            app:destination="@id/forgotPasswordFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_mainActivity2"
+            app:destination="@id/mainActivity2" />
+    </fragment>
+    <fragment
+        android:id="@+id/forgotPasswordFragment"
+        android:name="com.habiba.habitopia.ForgotPasswordFragment"
+        android:label="ForgotPasswordFragment" />
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.habiba.habitopia.SignUpFragment"
+        android:label="SignUpFragment" >
+        <action
+            android:id="@+id/action_signUpFragment_to_fragmentQ2"
+            app:destination="@id/fragmentQ2" />
+    </fragment>
+    <!--    <fragment-->
 <!--        android:id="@+id/authFragment"-->
 <!--        android:name="com.habiba.habitopia.AuthFragment"-->
 <!--        android:label="AuthFragment"-->

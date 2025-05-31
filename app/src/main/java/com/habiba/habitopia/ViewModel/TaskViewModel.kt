@@ -14,6 +14,10 @@ class TaskViewModel(private val repo: TaskRepo) : ViewModel() {
     private val _tasksLiveData = MutableLiveData<List<TaskEntity>>()
     val tasksLiveData: LiveData<List<TaskEntity>> get() = _tasksLiveData
 
+    private val _userName = MutableLiveData<String>()
+    val userName: LiveData<String> get() = _userName
+
+
     private var currentUserId: String = ""
 
     fun getTasksForUser(userId: String) {
@@ -44,6 +48,17 @@ class TaskViewModel(private val repo: TaskRepo) : ViewModel() {
             getTasksForUser(currentUserId)
         }
     }
+
+
+    fun fetchUserName(userId: String) {
+        viewModelScope.launch {
+            val name = repo.getUserNameForUser(userId)
+            _userName.postValue(name ?: "Unknown User")
+        }
+    }
+
+
+
 
 
 

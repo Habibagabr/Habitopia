@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "780285303705",
-    "project_id": "habitopiaapp-428b2",
-    "storage_bucket": "habitopiaapp-428b2.firebasestorage.app"
+    "project_number": "248666479067",
+    "project_id": "habitopia-24970",
+    "storage_bucket": "habitopia-24970.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:780285303705:android:e873f2ea444c353a575108",
+        "mobilesdk_app_id": "1:248666479067:android:61624767a054886abdaffe",
         "android_client_info": {
           "package_name": "com.habiba.habitopia"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDaZES1zcwlqWOWjdHsccKU03RrRl_D1vY"
+          "current_key": "AIzaSyAgcf6h7aKSl8d2rSaumzQ1Tm1w0aLeeYY"
         }
       ],
       "services": {

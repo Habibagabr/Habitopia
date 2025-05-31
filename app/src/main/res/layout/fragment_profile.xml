@@ -42,6 +42,7 @@
         android:text="My Profile"
         android:textColor="#27667B"
         android:textSize="30sp"
+        android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="16dp"
@@ -85,11 +86,10 @@
                         android:textSize="16sp"
                         android:layout_marginBottom="6dp" />
 
-                    <EditText
+                    <TextView
                         android:id="@+id/nameEditText"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
-                        android:text="Habiba Gabr"
                         android:enabled="false"
                         android:background="@drawable/rounded_edittext_background"
                         android:padding="12dp"
@@ -107,11 +107,10 @@
                         android:textColor="#A1AF73"
                         android:textSize="16sp" />
 
-                    <EditText
+                    <TextView
                         android:id="@+id/emailEditText"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
-                        android:text="habibamohamedgabr@gmail.com"
                         android:background="@drawable/rounded_edittext_background"
                         android:padding="12dp"
                         android:textColor="@color/beige"
@@ -129,7 +128,7 @@
                         android:layout_gravity="end"
                         android:clickable="true" />
 
-                    <!-- Save Button -->
+                    <!-- Save Button
                     <Button
                         android:id="@+id/saveChangesButton"
                         android:layout_width="match_parent"
@@ -139,7 +138,7 @@
                         android:backgroundTint="#91B2BD"
                         android:layout_marginTop="24dp"
                         android:paddingHorizontal="24dp" />
-
+-->
                     <!-- Log Out Button -->
                     <Button
                         android:id="@+id/logOutButton"
@@ -173,19 +172,4 @@
         android:background="@color/beige"
         app:strokeColor="@android:color/white"
         app:strokeWidth="2dp" />
-
-    <ImageView
-        android:id="@+id/editAvatarIcon"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/circle"
-        android:elevation="8dp"
-        android:padding="8dp"
-        android:src="@drawable/edit"
-        android:translationZ="40dp"
-        app:layout_constraintBottom_toBottomOf="@id/avatarImage"
-        app:layout_constraintEnd_toEndOf="@id/avatarImage" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

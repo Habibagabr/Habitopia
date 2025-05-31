@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase
 
 @Database(
     entities = [TaskEntity::class, HabitsEntity::class],
-    version = 1,
+    version = 2,  // تأكدي إنك زودتي هنا رقم النسخة!
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -25,10 +25,13 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "habitopia_database"
-                ).build()
+                )
+                    .fallbackToDestructiveMigration()  // هنا السطر المهم
+                    .build()
                 INSTANCE = instance
                 instance
             }
         }
     }
 }
+
